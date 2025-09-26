@@ -54,7 +54,7 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 3rem;
+  padding: 2rem 2rem;
   background: var(--bg);
   border-bottom: 2px solid #000;
   gap: 1rem;
@@ -107,7 +107,7 @@ header {
   display: inline-block;
   padding: 0.45rem 1rem;
   text-decoration: none;
-  color: var(--muted);
+  color: var(--text);
   border: 2px solid var(--accent);
   border-radius:  var(--radius);
   transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
@@ -115,12 +115,29 @@ header {
   font-size: 1.15rem;
 }
 
+
+
 .navbar a:hover,
 .navbar a:focus {
   background: var(--accent);
   color: var(--bg);
   transform: scale(1.03);
   outline: none;
+}
+
+/* flèche neutre */
+.navbar .arrow {
+  display: inline-block;
+  margin-left: 2px;
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transform: rotate(45deg); /* flèche vers le bas */
+  transition: transform 0.3s ease;
+  /* ajustement vertical */
+  vertical-align: middle; /* ou */
+  position: relative;
+  top: -2px; /* remonte la flèche de 2px, tu peux ajuster */
 }
 
 
@@ -131,10 +148,10 @@ header {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  min-width: auto ; /*220px;*/
-  display: flex;
+  min-width: 105px; /* largeur minimum */
+  display: inline-block;
   flex-direction: column;
-  gap: 0.4rem;
+  gap: 0.8rem;
   padding: 0;
   margin: 0;
   list-style: none;
@@ -147,6 +164,7 @@ header {
   transform: translateY(-6px);
   transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
   pointer-events: none;
+  text-align: left; /* assure alignement du texte */
 }
 
 .navbar .sub-menu.show {
@@ -161,16 +179,16 @@ header {
 }
 
 .navbar .sub-menu li a {
-  display: inline-block;
-  width: auto;
-  padding:0.25rem 0.7rem;
+  display: block;      /* remplit horizontalement */
+  width: 100%;         /* s'étend sur toute la largeur du sous-menu */
+  padding: 0.35rem 0.7rem;
   border: none;
   background: transparent;
   color: var(--text);
   border-radius: 6px;
   font-size: 1.05rem;
-  transition: background 0.18s ease, color 0.18s ease;
   font-family: Georgia, serif;
+  transition: background 0.18s ease, color 0.18s ease;
 }
 
 .navbar .sub-menu li a:hover,
@@ -178,8 +196,22 @@ header {
   background: rgba(0,0,0,0.05);
   color: var(--text);
   text-decoration: none;
+  
 }
 
+
+
+/* Liens de la navbar */
+.navbar ul li a {
+  font-size: 1.3rem;       /* texte plus gros */
+  padding: 0.7rem 1.2rem;  /* plus de padding vertical et horizontal */
+}
+
+/* Sous-menu */
+.navbar .sub-menu li a {
+  font-size: 1.15rem;      /* sous-onglets légèrement plus grands */
+  padding: 0.5rem 1rem;
+}
 
 /* =========================
    Sections / content
@@ -290,6 +322,8 @@ header {
   background: var(--text);
   border-radius: 3px;
 }
+
+
 .sidebar {
   display: none; /* cachée sur grand écran */
   position: fixed;
@@ -320,7 +354,7 @@ header {
 
 .sidebar a {
   text-decoration: none;
-  color: var(--muted);
+  color: var(--text);
   font-size: 1.1rem;
   border: 2px solid var(--accent);
   border-radius: var(--radius);
@@ -345,6 +379,28 @@ header {
   display: flex;
 }
 
+.sidebar .sub-menu li a {
+  border: none;           /* retirer le bloc autour du lien */
+  padding: 0.2rem 0;      /* padding minimal pour aligner avec navbar */
+  font-size: 1rem;
+  color: var(--text);
+  text-align: left;       /* texte à gauche */
+  border-radius: 0;       /* plus de coins arrondis */
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.sidebar .arrow {
+  display: inline-block;
+  margin-left: 5px;
+  border: solid #333;
+  border-width: 0 2px 2px 0;
+  padding: 3px;
+  transform: rotate(45deg);
+  transition: transform 0.3s ease;
+}
+.sidebar .toggle-submenu.active .arrow {
+  transform: rotate(-135deg);
+}
 
 /* =========================
    Responsive pour mobile (< 600px)
