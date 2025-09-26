@@ -8,10 +8,14 @@
 </head>
 <body>
   <header>
+    <div class="hamburger" id="hamburger">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
     <div class="header-title">
        <h1>ARGENTIK XPLORERS</h1>
        <p class="subtitle"> Aventures de Gogo & Lolo avec un Canon T70
-        <img src="camera.svg" alt="logo photo" width="20" height="20" style="vertical-align: middle;">
        </p>
     </div>
 
@@ -36,7 +40,7 @@
           <a href="#" id="toggle-swiss">Suisse</a>
           <ul id="swiss-menu" class="sub-menu">
             <li><a href="#" data-section="swiss-lausanne">Lausanne</a></li>
-            <li><a href="#" data-section="swiss-alpes">Alpes Vaudoise</a></li>
+            <li><a href="#" data-section="swiss-alpes">Lioson</a></li>
           </ul>
         </li>
     
@@ -45,14 +49,44 @@
         <li><a href="#" data-section="australia">Australie</a></li>
       </ul>
     </nav>
+   
   </header>
+
+  <div class="sidebar" id="sidebar">
+    <ul>
+      <li><a href="#" data-section="home">Home</a></li>
+  
+      <li class="has-submenu">
+        <a href="#" class="toggle-submenu">France</a>
+        <ul class="sub-menu">
+          <li><a href="#" data-section="france-alpes">Alpes</a></li>
+          <li><a href="#" data-section="france-bretagne">Bretagne</a></li>
+          <li><a href="#" data-section="france-prefailles">Préfailles</a></li>
+          <li><a href="#" data-section="france-vosges">Vosges</a></li>
+        </ul>
+      </li>
+  
+      <li class="has-submenu">
+        <a href="#" class="toggle-submenu">Suisse</a>
+        <ul class="sub-menu">
+          <li><a href="#" data-section="swiss-lausanne">Lausanne</a></li>
+          <li><a href="#" data-section="swiss-alpes">Lioson</a></li>
+        </ul>
+      </li>
+  
+      <li><a href="#" data-section="italy">Italie</a></li>
+      <li><a href="#" data-section="australia">Australie</a></li>
+    </ul>
+  </div>
 
 
   <main>
     <!-- Accueil -->
     <section id="home" class="section">
       <h2 class="cover-title"></h2>
-      <img src="Photos/France/Alpes/P5-l.JPG" alt="Photo argentique de couverture" class="cover">
+      <div class="landscape-container">
+        <img src="Photos/France/Alpes/P5-l.JPG" alt="Alpes paysage" class="landscape">
+      </div>
     </section>
 
     <!-- France - Alpes -->
@@ -354,7 +388,7 @@
 
     <!-- Suisse - Alpes Suisses -->
     <section id="swiss-alpes" class="section hidden">
-      <h2>Alpes Vaudoise - Juin 2025</h2>
+      <h2>Lac Lioson - Juin 2025</h2>
       <div class="gallery">
         <div class="landscape-container">
           <img src="Photos/Suisse/Lioson Lake/p2.JPG" alt="Alpes Suisses paysage" class="landscape">
@@ -494,13 +528,52 @@
       });
    });
 
-    const hamburger = document.querySelector('.hamburger');
-    const navUl = document.querySelector('.navbar ul');
-    
-    hamburger.addEventListener('click', () => {
-      navUl.classList.toggle('show');
-    });
-    </script>
+  // Ouvrir/fermer le menu sidebar
+  const hamburger = document.getElementById('hamburger');
+const sidebar = document.getElementById('sidebar');
+
+// Clic sur hamburger → ouvrir sidebar et cacher hamburger
+hamburger.addEventListener('click', () => {
+  sidebar.classList.add('show');
+  hamburger.style.display = 'none';
+});
+
+// Fonction pour fermer la sidebar et réafficher l'hamburger
+function closeSidebar() {
+  sidebar.classList.remove('show');
+  hamburger.style.display = 'flex'; // hamburger réapparaît
+  document.querySelectorAll('.sidebar .sub-menu').forEach(sm => sm.classList.remove('show'));
+}
+
+// Sous-menus dans sidebar
+document.querySelectorAll('.sidebar .toggle-submenu').forEach(btn => {
+  btn.addEventListener('click', e => {
+    e.preventDefault();
+    const submenu = btn.nextElementSibling;
+    submenu.classList.toggle('show');
+  });
+});
+
+// Navigation vers les sections
+document.querySelectorAll('.sidebar a[data-section]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const id = a.dataset.section;
+
+    // Masquer toutes les sections
+    document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+
+    // Afficher la section cible
+    const target = document.getElementById(id);
+    if (target) target.classList.remove('hidden');
+
+    // Fermer sidebar et réafficher hamburger
+    closeSidebar();
+  });
+});
+
+
+  </script>
     
 </body>
 </html>

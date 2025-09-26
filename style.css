@@ -264,3 +264,123 @@ header {
 #italy {
   background-color: #f0ede3; /* beige/gris clair harmonieux avec le thème */
 }
+
+
+/* =========================
+   Hamburger & Sidebar pour mobile seulement
+========================= */
+
+/* Hamburger caché par défaut */
+.hamburger {
+  display: flex;               /* visible */
+  position: fixed;             /* reste en haut même au scroll */
+  top: 1.7rem;                   /* distance du haut */
+  right: 1rem;                 /* distance de la droite */
+  flex-direction: column;
+  justify-content: space-around;
+  width: 25px;
+  height: 20px;
+  cursor: pointer;
+  z-index: 10001;
+}
+
+.hamburger span {
+  display: block;
+  height: 3px;
+  background: var(--text);
+  border-radius: 3px;
+}
+.sidebar {
+  display: none; /* cachée sur grand écran */
+  position: fixed;
+  top: 0;
+  right: -250px; 
+  width: 180px;
+  height: 100%;
+  background: var(--bg);
+  box-shadow: -4px 0 12px rgba(0,0,0,0.1);
+  flex-direction: column;
+  padding: 3rem 1rem;
+  transition: right 0.3s ease;
+  z-index: 10000;
+}
+
+.sidebar.show {
+  right: 0; /* visible */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: var(--muted);
+  font-size: 1.1rem;
+  border: 2px solid var(--accent);
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  transition: background 0.18s ease, color 0.18s ease;
+}
+
+.sidebar a:hover {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.sidebar .sub-menu {
+  display: none; /* caché par défaut */
+  flex-direction: column;
+  gap: 1.3rem;
+  margin-left: 1.2rem; /* indentation pour visualiser le sous-menu */
+  margin-top: 1.2rem;    /* espace entre le parent et le sous-menu */
+}
+
+.sidebar .sub-menu.show {
+  display: flex;
+}
+
+
+/* =========================
+   Responsive pour mobile (< 600px)
+========================= */
+@media (max-width: 600px) {
+  /* Cacher la navbar horizontale */
+  .navbar ul {
+    display: none;
+  }
+
+  /* Afficher le hamburger */
+  .hamburger {
+    display: flex;
+  }
+
+  /* Afficher la sidebar sur mobile */
+  .sidebar {
+    display: flex;
+  }
+
+  /* Version mobile pour le header */
+  .header-title h1 {
+    font-size: 2rem;         /* réduire le titre */
+  }
+
+  .header-title .subtitle {
+    font-size: 1.1rem;       /* réduire le sous-titre */
+  }
+
+  header {
+    padding: 1rem 1.5rem;    /* réduire le padding pour gagner de la place */
+    gap: 0.5rem;
+  }
+  
+  .sidebar a:active {
+    background: var(--accent);
+    color: var(--bg);
+  }
+}
