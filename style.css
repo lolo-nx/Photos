@@ -272,7 +272,7 @@ header {
 
 /* Hamburger caché par défaut */
 .hamburger {
-  display: flex;               /* visible */
+  display: none;               /* visible */
   position: fixed;             /* reste en haut même au scroll */
   top: 1.7rem;                   /* distance du haut */
   right: 1rem;                 /* distance de la droite */
@@ -378,7 +378,7 @@ header {
     padding: 1rem 1.5rem;    /* réduire le padding pour gagner de la place */
     gap: 0.5rem;
   }
-  
+
   .sidebar a:active {
     background: var(--accent);
     color: var(--bg);
