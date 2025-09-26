@@ -107,7 +107,7 @@ header {
   display: inline-block;
   padding: 0.45rem 1rem;
   text-decoration: none;
-  color: var(--text);
+  color: var(--muted);
   border: 2px solid var(--accent);
   border-radius:  var(--radius);
   transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
