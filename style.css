@@ -1,14 +1,13 @@
 /* =========================
-   style.css — refactor complet
-   Remplace ton ancien fichier par celui-ci
+   style.css — version corrigée
    ========================= */
 
-/* variables */
-:root{
+/* Variables */
+:root {
   --bg: #f5f1e6;
   --text: #111;
   --muted: #555;
-  --accent: #111;
+  --accent: #555;
   --card: rgba(255,255,255,0.6);
   --gap: 1rem;
   --radius: 6px;
@@ -17,22 +16,36 @@
 /* =========================
    Reset / global
 ========================= */
-* { box-sizing: border-box; }
-html,body { height: 100%; }
-body {
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
   margin: 0;
   padding: 0;
   font-family: Georgia, serif;
   background: var(--bg);
   color: var(--text);
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   line-height: 1.4;
 }
 
 /* Headings */
-h1, h2 { margin: 0; font-weight: 400; }
-h2 { font-size: 2.2rem; color: #333; text-align:center; margin-top:1rem; margin-bottom:.5rem; }
+h1, h2 {
+  margin: 0;
+  font-weight: 400;
+}
+
+
+
+h2 {
+  font-size: 2.2rem;
+  color: #333;
+  text-align: center;
+  margin: 1rem 0 0.5rem 0;
+}
 
 /* =========================
    Header
@@ -54,11 +67,21 @@ header {
   align-items: flex-start;
 }
 
-.header-title h1 { font-size: 3rem; font-weight: normal; margin-bottom: .3rem; }
-.header-title .subtitle { font-size: 1.1rem; color: var(--muted); font-style: italic; margin: 0; }
+.header-title h1 {
+  font-size: 2.8rem;
+  font-weight: normal;
+  margin-bottom: 0rem; /* réduit l'espace entre titre et sous-titre */
+}
+
+.header-title .subtitle {
+  font-size: 1.3rem; /* texte plus grand */
+  color: var(--muted);
+  font-style: italic;
+  margin: 0;
+}
 
 /* =========================
-   Navbar (container)
+   Navbar
 ========================= */
 .navbar {
   position: relative;
@@ -67,7 +90,6 @@ header {
   justify-content: flex-end;
 }
 
-/* list baseline */
 .navbar ul {
   margin: 0;
   padding: 0;
@@ -77,25 +99,22 @@ header {
   align-items: center;
 }
 
-/* each item */
 .navbar li {
-  position: relative; /* important pour le sous-menu absolu */
+  position: relative;
 }
 
-/* link style */
 .navbar a {
   display: inline-block;
-  padding: .45rem .9rem;
+  padding: 0.45rem 1rem;
   text-decoration: none;
   color: var(--text);
   border: 2px solid var(--accent);
-  border-radius: var(--radius);
-  transition: background .18s ease, color .18s ease, transform .12s ease;
+  border-radius:  var(--radius);
+  transition: background 0.18s ease, color 0.18s ease, transform 0.12s ease;
   background: transparent;
-  font-size: 1rem;
+  font-size: 1.15rem;
 }
 
-/* hover / focus */
 .navbar a:hover,
 .navbar a:focus {
   background: var(--accent);
@@ -104,45 +123,32 @@ header {
   outline: none;
 }
 
-/* small arrow on items with submenu */
-.has-submenu > a::after {
-  content: "▾";
-  display: inline-block;
-  margin-left: .45rem;
-  font-size: .8rem;
-  vertical-align: middle;
-  opacity: .85;
-}
 
 /* =========================
-   Sous-menus (hidden by default, shown when .show)
-   We use visibility/opacity (not display) to allow smooth transitions
+   Sous-menus
 ========================= */
 .navbar .sub-menu {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  min-width: 180px;
+  min-width: auto ; /*220px;*/
   display: flex;
-  gap: .2rem;
-  padding: .35rem;
+  flex-direction: column;
+  gap: 0.4rem;
+  padding: 0;
   margin: 0;
   list-style: none;
   background: rgba(245,241,230,0.98);
   border-radius: 8px;
-  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
   z-index: 1000;
-
-  /* hidden state */
   visibility: hidden;
   opacity: 0;
   transform: translateY(-6px);
-  transition: opacity .18s ease, transform .18s ease, visibility .18s;
+  transition: opacity 0.18s ease, transform 0.18s ease, visibility 0.18s;
   pointer-events: none;
-  flex-direction: column; /* vertical by default for easy reading */
 }
 
-/* visible state controlled by JS: add class "show" */
 .navbar .sub-menu.show {
   visibility: visible;
   opacity: 1;
@@ -150,29 +156,30 @@ header {
   pointer-events: auto;
 }
 
-/* sub-menu items */
 .navbar .sub-menu li {
   white-space: nowrap;
 }
 
-/* sub-menu links */
 .navbar .sub-menu li a {
-  display: block;
-  padding: .35rem .6rem;
+  display: inline-block;
+  width: auto;
+  padding:0.25rem 0.7rem;
   border: none;
   background: transparent;
   color: var(--text);
   border-radius: 6px;
-  font-size: 0.96rem;
+  font-size: 1.05rem;
+  transition: background 0.18s ease, color 0.18s ease;
+  font-family: Georgia, serif;
 }
 
-/* hover focus inside submenu */
 .navbar .sub-menu li a:hover,
 .navbar .sub-menu li a:focus {
-  background: rgba(0,0,0,.05);
+  background: rgba(0,0,0,0.05);
   color: var(--text);
   text-decoration: none;
 }
+
 
 /* =========================
    Sections / content
@@ -181,7 +188,9 @@ header {
   padding: 2rem 1rem;
 }
 
-.hidden { display: none !important; }
+.hidden {
+  display: none !important;
+}
 
 .cover-title {
   font-family: Georgia, serif;
@@ -191,21 +200,23 @@ header {
   text-align: center;
 }
 
-/* image cover responsive */
 .cover {
   display: block;
-  margin: 1rem auto 2rem;
+  margin: 1rem auto 2rem auto;
   max-width: 800px;
   width: 90%;
   height: auto;
-  box-shadow: 4px 4px 12px rgba(0,0,0,.2);
+  box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
 }
 
 /* =========================
-   Gallery (responsive, no fixed heights)
+   Gallery
 ========================= */
-.gallery { display:flex; flex-direction:column; gap: 8px; }
-
+.gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
 
 .landscape-container img {
   display: block;
@@ -216,7 +227,6 @@ header {
   object-fit: cover;
 }
 
-
 .portrait-row {
   display: flex;
   gap: 8px;
@@ -225,17 +235,16 @@ header {
   margin: 0 auto;
 }
 
-
 .portrait-row img {
   flex: 1;
   height: 677px;
   object-fit: cover;
 }
 
-
-/* small screens: stack portraits */
+/* =========================
+   Responsive pour petit écran
+========================= */
 @media (max-width: 768px) {
-  
   .landscape-container img,
   .portrait-row img {
     width: 100%;
@@ -248,59 +257,10 @@ header {
 }
 
 /* =========================
-   Responsive Navbar behaviour
+   Fond spécifique pour pages surexposées
 ========================= */
-@media (max-width: 960px) {
-  header { padding: 1.25rem 1rem; }
-  .header-title h1 { font-size: 2.25rem; }
-  .header-title .subtitle { font-size: 1rem; }
-
-  /* switch navbar to column when very narrow */
-  .navbar ul {
-    gap: .6rem;
-  }
+#swiss-lausanne,
+#swiss-alpes,
+#italy {
+  background-color: #f0ede3; /* beige/gris clair harmonieux avec le thème */
 }
-
-/* On small devices the menu should flow vertically */
-@media (max-width: 768px) {
-  .navbar ul {
-    flex-direction: column;
-    align-items: flex-start;
-    width: 100%;
-  }
-
-  .navbar a {
-    width: auto;
-  }
-
-  /* sub-menus become part of the flow (relative) and stretch */
-  .navbar .sub-menu {
-    position: relative;
-    top: 0;
-    left: 0;
-    transform: none;
-    visibility: hidden;    /* still hidden until .show is added */
-    opacity: 0;
-    width: 100%;
-    box-shadow: none;
-    background: transparent;
-    padding: 0.25rem 0;
-    border-radius: 0;
-  }
-
-  .navbar .sub-menu.show {
-    visibility: visible;
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .navbar .sub-menu li a {
-    padding: .5rem 1rem;
-  }
-}
-
-/* =========================
-   Small accessibility touches
-========================= */
-.navbar a:focus { outline: 3px solid rgba(17,17,17,.08); outline-offset: 2px; }
-

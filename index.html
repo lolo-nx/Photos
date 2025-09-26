@@ -3,14 +3,16 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Photos Argentiques</title>
+  <title>ARGENTIK XPLORERS</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header>
     <div class="header-title">
-       <h1>PHOTOS ARGENTIQUES</h1>
-       <p class="subtitle">Aventures de Gogo & Lolo avec un Canon T70 </p>
+       <h1>ARGENTIK XPLORERS</h1>
+       <p class="subtitle"> Aventures de Gogo & Lolo avec un Canon T70
+        <img src="camera.svg" alt="logo photo" width="20" height="20" style="vertical-align: middle;">
+       </p>
     </div>
 
     <nav class="navbar">
@@ -50,7 +52,7 @@
     <!-- Accueil -->
     <section id="home" class="section">
       <h2 class="cover-title"></h2>
-      <img src="Photos/France/Alpes/p2-l.JPG" alt="Photo argentique de couverture" class="cover">
+      <img src="Photos/France/Alpes/P5-l.JPG" alt="Photo argentique de couverture" class="cover">
     </section>
 
     <!-- France - Alpes -->
@@ -66,9 +68,6 @@
         </div>
         <div class="landscape-container">
           <img src="Photos/France/Alpes/p4-l.JPG" alt="Alpes paysage" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Alpes/p5-l.JPG" alt="Alpes paysage" class="landscape">
         </div>
       </div>
     </section>
@@ -430,7 +429,7 @@
 
     <!-- Australie -->
     <section id="australia" class="section hidden">
-      <h2>In coming</h2>
+      <h2>Incoming</h2>
       <div class="gallery">
   
       </div>
@@ -495,6 +494,13 @@
       });
    });
 
-  </script>
+    const hamburger = document.querySelector('.hamburger');
+    const navUl = document.querySelector('.navbar ul');
+    
+    hamburger.addEventListener('click', () => {
+      navUl.classList.toggle('show');
+    });
+    </script>
+    
 </body>
 </html>
