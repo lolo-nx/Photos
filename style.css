@@ -42,7 +42,7 @@ h1, h2 {
 
 h2 {
   font-size: 2.2rem;
-  color: #333;
+  color: #111;
   text-align: center;
   margin: 1rem 0 0.5rem 0;
 }
@@ -148,7 +148,7 @@ header {
   position: absolute;
   top: calc(100% + 8px);
   left: 0;
-  min-width: 105px; /* largeur minimum */
+  min-width: 120px; /* largeur minimum */
   display: inline-block;
   flex-direction: column;
   gap: 0.8rem;
