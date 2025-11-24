@@ -46,7 +46,14 @@
     
         <!-- Autres pays -->
         <li><a href="#" data-section="italy">Italie</a></li>
-        <li><a href="#" data-section="australia">Australie</a></li>
+        <li class="has-submenu">
+          <a href="#" id="toggle-australia">Australie <span class="arrow"></span></a>
+          <ul id="australia-menu" class="sub-menu">
+            <li><a href="#" data-section="australia-melbourne">Melbourne City</a></li>
+            <li><a href="#" data-section="australia-great-ocean-road">Great Ocean Road</a></li>
+            <li><a href="#" data-section="australia-animaux">Animaux</a></li>
+          </ul>
+        </li>
       </ul>
     </nav>
    
@@ -75,7 +82,14 @@
       </li>
   
       <li><a href="#" data-section="italy">Italie</a></li>
-      <li><a href="#" data-section="australia">Australie</a></li>
+      <li class="has-submenu">
+        <a href="#" class="toggle-submenu">Australie <span class="arrow"></span></a>
+        <ul class="sub-menu">
+          <li><a href="#" data-section="australia-melbourne">Melbourne City</a></li>
+          <li><a href="#" data-section="australia-great-ocean-road">Great Ocean Road</a></li>
+          <li><a href="#" data-section="australia-animaux">Animaux</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 
@@ -85,7 +99,7 @@
     <section id="home" class="section">
       <h2 class="cover-title"></h2>
       <div class="landscape-container">
-        <img src="Photos/Australie/p21-l.jpg" alt="Alpes paysage" class="landscape">
+        <img src="Photos/Australie/GreatOceanRoad/l1.jpg" alt="Alpes paysage" class="landscape">
       </div>
     </section>
 
@@ -461,93 +475,317 @@
       </div>
     </section>
 
-    <!-- Australie -->
-    <section id="australia" class="section hidden">
-      <h2>Melbourne </h2>
+    <!-- Australie - Melbourne City -->
+    <section id="australia-melbourne" class="section hidden">
+      <h2>Melbourne City - 2025</h2>
       <div class="gallery">
         <div class="landscape-container">
-          <img src="Photos/Australie/p11-l.jpg" alt="Australie paysage" class="landscape">
-        </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p1-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p10-p.jpg" alt="Australie  portrait" class="portrait">
-         </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/p8-l.jpg" alt="Australie paysage" class="landscape">
-        </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p12-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p3-p.jpg" alt="Australie  portrait" class="portrait">
-         </div>  
-         <div class="landscape-container">
-          <img src="Photos/Australie/p14-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p11-l.jpg" alt="Melbourne skyline" class="landscape">
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/p16-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p22-p.jpg" alt="Australie  portrait" class="portrait">
-         </div>  
-        <div class="landscape-container">
-          <img src="Photos/Australie/p13-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p1-p.jpg" alt="Melbourne portrait 1" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p10-p.jpg" alt="Melbourne portrait 2" class="portrait">
         </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p26-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p32-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-         <div class="landscape-container">
-          <img src="Photos/Australie/p27-l.jpg" alt="Australie paysage" class="landscape">
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p8-l.jpg" alt="Melbourne tramway" class="landscape">
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/p23-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p33-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-          <div class="landscape-container">
-          <img src="Photos/Australie/p4-l.jpg" alt="Australie paysage" class="landscape">
-        </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p25-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p24-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-         <div class="landscape-container">
-          <img src="Photos/Australie/p5-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p12-p.jpg" alt="Melbourne ruelle" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p3-p.jpg" alt="Melbourne portrait 3" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p6-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p14-l.jpg" alt="Coucher de soleil Melbourne" class="landscape">
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/p2-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p9-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-        <div class="landscape-container">
-          <img src="Photos/Australie/p7-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p16-p.jpg" alt="Melbourne portrait 4" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p22-p.jpg" alt="Melbourne portrait 5" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p18-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p27-l.jpg" alt="Pont à Melbourne" class="landscape">
         </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p15-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p29-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-         <div class="landscape-container">
-          <img src="Photos/Australie/p29-l.jpg" alt="Australie paysage" class="landscape">
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p26-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p32-p.jpg" alt="Melbourne portrait 7" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p30-m.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p18-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p2-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p9-p.jpg" alt="Melbourne portrait 7" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p28-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p4-l.jpg" alt="Melbourne city lights" class="landscape">
         </div>
-         <div class="portrait-row">
-          <img src="Photos/Australie/p17-p.jpg" alt="Australie portrait" class="portrait">
-          <img src="Photos/Australie/p31-p.jpg" alt="Australie  portrait" class="portrait">
-         </div> 
-        <div class="landscape-container">
-          <img src="Photos/Australie/p19-l.jpg" alt="Australie paysage" class="landscape">
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p17-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p24-p.jpg" alt="Melbourne portrait 7" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p20-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p5-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p25-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p29-p.jpg" alt="Melbourne portrait 7" class="portrait">
         </div>
         <div class="landscape-container">
-          <img src="Photos/Australie/p21-l.jpg" alt="Australie paysage" class="landscape">
+          <img src="Photos/Australie/Melbourne-city/p7-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p29-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p31-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p13-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p33-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p36-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p30-m.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p35-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p37-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p19-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p38-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p39-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p20-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p40-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p41-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p21-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p42-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p45-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p28-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p46-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p47-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p29-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p48-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p49-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p43-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p50-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p51-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p51-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p52-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p53-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p55-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p54-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p56-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p57-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p58-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p59-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/p63-l.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p61-p.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p62-p.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l1.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p1.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p2.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l2.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p3.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p4.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l3.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p5.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p6.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l4.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p7.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p8.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l5.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p9.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p10.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l6.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p11.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p12.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Melbourne-city/l7.jpg" alt="Melbourne city lights" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p13.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p14.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p15.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p16.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p17.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p18.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p19.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p20.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p21.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p22.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p23.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p24.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p25.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p26.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p27.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p28.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Melbourne-city/p29.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/Melbourne-city/p30.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Australie - Great Ocean Road -->
+    <section id="australia-great-ocean-road" class="section hidden">
+      <h2>Great Ocean Road</h2>
+      <div class="gallery">
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l1.jpg" alt="Falaises Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p1.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p2.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l2.jpg" alt="Rochers côtiers Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p3.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p4.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l4.jpg" alt="Vagues Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p5.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p6.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l5.jpg" alt="Douze apôtres Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p7.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p8.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l6.jpg" alt="Route sinueuse Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p9.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p10.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/GreatOceanRoad/l7.jpg" alt="Côte sauvage Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p11.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p12.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p13.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p14.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p15.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p16.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p17.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p18.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p19.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p20.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/GreatOceanRoad/p21.jpg" alt="Melbourne portrait 6" class="portrait">
+          <img src="Photos/Australie/GreatOceanRoad/p22.jpg" alt="Melbourne portrait 7" class="portrait">
+        </div>
+      </div>
+    </section>
+
+    <!-- Australie - Animaux -->
+    <section id="australia-animaux" class="section hidden">
+      <h2></h2>
+      <div class="gallery">
+        <div class="landscape-container">
+          <img src="Photos/Australie/Animaux/l1.jpg" alt="Côte sauvage Great Ocean Road" class="landscape">
+        </div>
+        <div class="portrait-row">
+          <img src="Photos/Australie/Animaux/p1.jpg" alt="Kangourou" class="portrait">
+          <img src="Photos/Australie/Animaux/p2.jpg" alt="Koala" class="portrait">
+        </div>
+        <div class="landscape-container">
+          <img src="Photos/Australie/Animaux/l2.jpg" alt="Côte sauvage Great Ocean Road" class="landscape">
         </div>
       </div>
     </section>
@@ -557,40 +795,39 @@
     document.addEventListener('DOMContentLoaded', function () {
       const franceToggle = document.getElementById('toggle-france');
       const swissToggle = document.getElementById('toggle-swiss');
+      const australiaToggle = document.getElementById('toggle-australia');
       const franceMenu = document.getElementById('france-menu');
       const swissMenu = document.getElementById('swiss-menu');
-      const allSubMenus = document.querySelectorAll('.sub-menu');
+      const australiaMenu = document.getElementById('australia-menu');
+      const navSubMenus = document.querySelectorAll('.navbar .sub-menu');
+      const dropdowns = [
+        { toggle: franceToggle, menu: franceMenu },
+        { toggle: swissToggle, menu: swissMenu },
+        { toggle: australiaToggle, menu: australiaMenu }
+      ];
 
       function closeAllSubMenus() {
-        allSubMenus.forEach(m => {
+        navSubMenus.forEach(m => {
           m.classList.remove('show');
           m.setAttribute('aria-hidden', 'true');
         });
-        franceToggle.setAttribute('aria-expanded', 'false');
-        swissToggle.setAttribute('aria-expanded', 'false');
+        dropdowns.forEach(({ toggle }) => {
+          toggle.setAttribute('aria-expanded', 'false');
+        });
       }
 
-      franceToggle.addEventListener('click', function (e) {
-       e.preventDefault();
-       const willShow = !franceMenu.classList.contains('show');
-       closeAllSubMenus();
-       if (willShow) {
-        franceMenu.classList.add('show');
-        franceMenu.setAttribute('aria-hidden', 'false');
-        franceToggle.setAttribute('aria-expanded', 'true');
-       }
-       });
-
-      swissToggle.addEventListener('click', function (e) {
-       e.preventDefault();
-       const willShow = !swissMenu.classList.contains('show');
-       closeAllSubMenus();
-       if (willShow) {
-        swissMenu.classList.add('show');
-        swissMenu.setAttribute('aria-hidden', 'false');
-        swissToggle.setAttribute('aria-expanded', 'true');
-       }
-       });
+      dropdowns.forEach(({ toggle, menu }) => {
+        toggle.addEventListener('click', function (e) {
+          e.preventDefault();
+          const willShow = !menu.classList.contains('show');
+          closeAllSubMenus();
+          if (willShow) {
+            menu.classList.add('show');
+            menu.setAttribute('aria-hidden', 'false');
+            toggle.setAttribute('aria-expanded', 'true');
+          }
+        });
+      });
 
       // clic sur liens pour afficher la section
       document.querySelectorAll('a[data-section]').forEach(a => {
