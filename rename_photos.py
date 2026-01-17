@@ -29,6 +29,7 @@ SECTION_DIRS = {
     "australia-great-ocean-road": "Photos/Australie/GreatOceanRoad",
     "australia-philip-island": "Photos/Australie/Philip-island",
     "australia-animaux": "Photos/Australie/Animaux",
+    "australie-Roadtrip": "Photos/Australie/Roadtrip",
 }
 
 
