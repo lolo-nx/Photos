@@ -4,38 +4,371 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ARGENTIK TRAVEL</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:ital,wght@0,300;0,400;0,600;1,300&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&family=Courier+Prime&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --white: #f5f0e8;
+      --off-white: #ede6d6;
+      --light-gray: #e0d8c8;
+      --mid-gray: #999990;
+      --dark-gray: #444440;
+      --black: #111110;
+      --accent: #e8650a;
+      --header-h: 85px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--white);
+      color: var(--black);
+      font-family: 'Courier Prime', monospace;
+      font-size: 16px;
+      line-height: 1.7;
+    }
+
+    /* ─── HEADER ─── */
+    header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--header-h);
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 40px;
+      z-index: 100;
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .header-title h1 {
+      font-family: 'Courier Prime', monospace;
+      font-size: 1.3rem;
+      letter-spacing: 0.2em;
+      color: var(--accent);
+      text-transform: uppercase;
+      font-weight: 400;
+    }
+
+    .subtitle {
+      font-family: 'Courier Prime', monospace;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--mid-gray);
+      letter-spacing: 0.05em;
+      margin-top: 1px;
+    }
+
+    /* ─── NAVBAR ─── */
+    .navbar {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+
+    .navbar ul { list-style: none; display: flex; gap: 2px; align-items: center; }
+
+    .navbar a {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--dark-gray);
+      text-decoration: none;
+      padding: 8px 10px;
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      white-space: nowrap;
+    }
+
+    .navbar a:hover { color: var(--accent); }
+
+    .navbar .has-submenu { position: relative; }
+
+    .navbar .sub-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid var(--light-gray);
+      min-width: 170px;
+      z-index: 200;
+      padding: 8px 0;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+    }
+
+    .navbar .sub-menu.show { display: block; }
+
+    .navbar .sub-menu li a {
+      display: block;
+      padding: 10px 22px;
+      font-size: 0.9rem;
+      color: var(--dark-gray);
+      border: none;
+      letter-spacing: 0.08em;
+    }
+
+    .navbar .sub-menu li a:hover { color: var(--accent); }
+
+    .arrow {
+      display: inline-block;
+      width: 5px; height: 5px;
+      border-right: 1px solid var(--mid-gray);
+      border-bottom: 1px solid var(--mid-gray);
+      transform: rotate(45deg);
+      margin-bottom: 2px;
+    }
+
+    /* ─── HAMBURGER ─── */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .hamburger span {
+      display: block;
+      width: 22px; height: 1.5px;
+      background: var(--black);
+      transition: all 0.2s;
+    }
+
+    /* ─── SIDEBAR ─── */
+    .sidebar {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 260px; height: 100vh;
+      background: var(--white);
+      border-right: 1px solid var(--light-gray);
+      z-index: 300;
+      padding: 80px 0 32px;
+      overflow-y: auto;
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+    .sidebar.show { transform: translateX(0); }
+    .sidebar ul { list-style: none; }
+    .sidebar > ul > li { border-bottom: 1px solid var(--light-gray); }
+    .sidebar a {
+      display: block;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--dark-gray);
+      text-decoration: none;
+      padding: 14px 28px;
+      transition: color 0.2s;
+    }
+    .sidebar a:hover { color: var(--accent); }
+    .sidebar .sub-menu { display: none; background: var(--off-white); }
+    .sidebar .sub-menu.show { display: block; }
+    .sidebar .sub-menu a { padding-left: 44px; font-size: 0.62rem; }
+
+    /* ─── MAIN ─── */
+    main { margin-top: var(--header-h); }
+
+    /* ─── SECTIONS ─── */
+    .section { display: none; padding: 0 0 100px; }
+    .section:not(.hidden) { display: block; }
+    .hidden { display: none !important; }
+
+    /* ─── HOME ─── */
+    #home { padding: 0; position: relative; }
+    #home .landscape-container {
+      width: 100%;
+      height: calc(100vh - var(--header-h));
+      overflow: hidden;
+      border: none;
+    }
+    #home .landscape-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .home-overlay {
+      position: absolute;
+      bottom: 60px;
+      left: 60px;
+    }
+    .home-overlay h2 {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(2.8rem, 6vw, 5.5rem);
+      font-weight: 400;
+      font-style: italic;
+      color: #ffffff;
+      line-height: 1.1;
+      text-shadow: 0 2px 24px rgba(0,0,0,0.35);
+    }
+    .home-overlay p {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.68rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.8);
+      margin-top: 12px;
+    }
+
+    /* ─── SECTION HEADER ─── */
+    .section-header {
+      padding: 70px 0 50px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding-left: calc((100% - 1100px) / 2);
+      padding-right: calc((100% - 1100px) / 2);
+      border-bottom: 1px solid var(--light-gray);
+    }
+
+    .section-header .location-tag {
+      font-family: 'Courier Prime', monospace;
+      font-size: 1rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+
+    .section-header h2 {
+      font-family: 'Courier Prime', monospace;
+      font-size: clamp(2.2rem, 4vw, 3.6rem);
+      font-weight: 400;
+      font-style: italic;
+      color: var(--black);
+      line-height: 1.15;
+      margin-bottom: 24px;
+    }
+
+    .section-header .description {
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.95rem;
+      color: var(--dark-gray);
+      line-height: 1.8;
+      max-width: 600px;
+    }
+
+    .section-header .film-note {
+      margin-top: 20px;
+      font-family: 'Courier Prime', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.15em;
+      color: var(--mid-gray);
+      text-transform: uppercase;
+    }
+
+    /* ─── GALLERY ─── */
+    .gallery {
+      padding: 40px 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+
+    .landscape-container {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      border: none;
+    }
+
+    .landscape-container img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      transition: opacity 0.3s ease;
+    }
+
+    .landscape-container:hover img { opacity: 0.95; }
+
+    .portrait-row {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .portrait {
+      flex: 1;
+      overflow: hidden;
+      border: none;
+    }
+
+    /* Portrait seul : limité à 50% de la largeur, centré */
+    .portrait:only-child {
+      flex: 0 0 50%;
+    }
+
+    .portrait img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: opacity 0.3s ease;
+    }
+
+    .portrait:hover img { opacity: 0.95; }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 1180px) {
+      .section-header {
+        padding: 60px 40px 40px;
+        max-width: 100%;
+      }
+      .gallery {
+        padding: 32px 40px 0;
+        max-width: 100%;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar { display: none; }
+      .hamburger { display: flex; }
+      .sidebar { display: block; }
+      header { padding: 0 20px; }
+      .section-header { padding: 40px 20px 32px; }
+      .gallery { padding: 24px 20px 0; gap: 6px; }
+      .portrait-row { gap: 6px; }
+      .home-overlay { bottom: 32px; left: 24px; }
+    }
+  </style>
 </head>
 <body>
+
+  <!-- ─── HEADER ─── -->
   <header>
     <div class="hamburger" id="hamburger">
-      <span></span>
-      <span></span>
-      <span></span>
+      <span></span><span></span><span></span>
     </div>
+
     <div class="header-title">
-       <h1>ARGENTIK TRAVEL</h1>
-       <p class="subtitle"> Aventures de Gogo & Lolo avec un Canon T70
-       </p>
-    </div> 
+      <h1>Argentik Travel</h1>
+      <p class="subtitle">Aventures de Gogo &amp; Lolo </p>
+    </div>
 
     <nav class="navbar">
       <ul>
-        <!-- Accueil -->
         <li><a href="#" data-section="home">Home</a></li>
-    
-        <!-- France -->
+
         <li class="has-submenu">
-          <a href="#" id="toggle-france">France <span class="arrow"></span> </a>
+          <a href="#" id="toggle-france">France <span class="arrow"></span></a>
           <ul id="france-menu" class="sub-menu">
             <li><a href="#" data-section="france-alpes">Alpes</a></li>
-            <li><a href="#" data-section="france-bretagne">Bretagne</a></li>
+            <li><a href="#" data-section="france-bretagne">Bénodet</a></li>
             <li><a href="#" data-section="france-prefailles">Préfailles</a></li>
             <li><a href="#" data-section="france-vosges">Vosges</a></li>
           </ul>
         </li>
-    
-        <!-- Suisse -->
+
         <li class="has-submenu">
           <a href="#" id="toggle-swiss">Suisse <span class="arrow"></span></a>
           <ul id="swiss-menu" class="sub-menu">
@@ -43,1082 +376,667 @@
             <li><a href="#" data-section="swiss-alpes">Lioson</a></li>
           </ul>
         </li>
-    
-        <!-- Autres pays -->
+
         <li><a href="#" data-section="italy">Italie</a></li>
+
         <li class="has-submenu">
           <a href="#" id="toggle-australia">Australie <span class="arrow"></span></a>
           <ul id="australia-menu" class="sub-menu">
-            <li><a href="#" data-section="australia-melbourne">Melbourne City</a></li>
+            <li><a href="#" data-section="australia-melbourne">Melbourne </a></li>
             <li><a href="#" data-section="australia-great-ocean-road">Great Ocean Road</a></li>
             <li><a href="#" data-section="australia-roadtrip">Roadtrip Sydney</a></li>
             <li><a href="#" data-section="australia-philip-island">Phillip Island</a></li>
-            <li><a href="#" data-section="australia-animaux"> Faune & Flore</a></li>
+            <li><a href="#" data-section="australia-animaux">Faune &amp; Flore</a></li>
           </ul>
         </li>
+
+        <li><a href="#" data-section="nouvelle-zelande">Nouvelle-Zélande</a></li>
+
+        <li><a href="#" data-section="polynesie">Polynésie</a></li>
       </ul>
     </nav>
-   
   </header>
 
+  <!-- ─── SIDEBAR ─── -->
   <div class="sidebar" id="sidebar">
     <ul>
       <li><a href="#" data-section="home">Home</a></li>
-  
       <li class="has-submenu">
-        <a href="#" class="toggle-submenu">France  <span class="arrow"></span></a>
+        <a href="#" class="toggle-submenu">France <span class="arrow"></span></a>
         <ul class="sub-menu">
           <li><a href="#" data-section="france-alpes">Alpes</a></li>
-          <li><a href="#" data-section="france-bretagne">Bretagne</a></li>
+          <li><a href="#" data-section="france-bretagne">Bénodet</a></li>
           <li><a href="#" data-section="france-prefailles">Préfailles</a></li>
           <li><a href="#" data-section="france-vosges">Vosges</a></li>
         </ul>
       </li>
-  
       <li class="has-submenu">
-        <a href="#" class="toggle-submenu">Suisse  <span class="arrow"></span></a>
+        <a href="#" class="toggle-submenu">Suisse <span class="arrow"></span></a>
         <ul class="sub-menu">
           <li><a href="#" data-section="swiss-lausanne">Lausanne</a></li>
           <li><a href="#" data-section="swiss-alpes">Lioson</a></li>
         </ul>
       </li>
-  
       <li><a href="#" data-section="italy">Italie</a></li>
       <li class="has-submenu">
         <a href="#" class="toggle-submenu">Australie <span class="arrow"></span></a>
         <ul class="sub-menu">
-          <li><a href="#" data-section="australia-melbourne">Melbourne City</a></li>
+          <li><a href="#" data-section="australia-melbourne">Melbourne</a></li>
           <li><a href="#" data-section="australia-great-ocean-road">Great Ocean Road</a></li>
           <li><a href="#" data-section="australia-roadtrip">Roadtrip</a></li>
           <li><a href="#" data-section="australia-philip-island">Phillip Island</a></li>
-          <li><a href="#" data-section="australia-animaux">Faune & Flore</a></li>
+          <li><a href="#" data-section="australia-animaux">Faune &amp; Flore</a></li>
         </ul>
       </li>
+      <li><a href="#" data-section="nouvelle-zelande">Nouvelle-Zélande</a></li>
+      <li><a href="#" data-section="polynesie">Polynésie</a></li>
     </ul>
   </div>
 
-
+  <!-- ─── MAIN ─── -->
   <main>
-    <!-- Accueil -->
+
+    <!-- HOME -->
     <section id="home" class="section">
-      <h2 class="cover-title"></h2>
-      <div class="landscape-container">
-        <img src="Photos/Australie/Roadtrip/l010.jpg" alt="Alpes paysage" class="landscape">
+      <div class="landscape-container" style="max-width:100%; height:calc(100vh - 72px); border:none;">
+        <img src="Photos/Australie/Roadtrip/l010.jpg" alt="Couverture">
+      </div>
+      <div class="home-overlay">
+        <h2>Argentik Travel</h2>
+        <p>Pellicule 35mm · Canon T70 · 2025</p>
       </div>
     </section>
 
-    <!-- France - Alpes -->
+    <!-- FRANCE – ALPES -->
     <section id="france-alpes" class="section hidden">
-      <h2>Alpes - Août 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">France · Août 2025</div>
+        <h2>Les Alpes</h2>
+        <p class="description">
+          Séjour dans les Alpes françaises à Valmorel, un village de montagne situé dans la vallée de la Tarentaise, en Savoie. 
+        
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/France/Alpes/l001.jpg" alt="Alpes - Août 2025 paysage 1" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Alpes/l001.jpg" alt="Alpes paysage 1"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Alpes/p001.jpg" alt="Alpes - Août 2025 portrait 1" class="portrait">
-          <img src="Photos/France/Alpes/p002.jpg" alt="Alpes - Août 2025 portrait 2" class="portrait">
+          <div class="portrait"><img src="Photos/France/Alpes/p001.jpg" alt="Alpes portrait 1"></div>
+          <div class="portrait"><img src="Photos/France/Alpes/p002.jpg" alt="Alpes portrait 2"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Alpes/l002.jpg" alt="Alpes - Août 2025 paysage 2" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Alpes/l003.jpg" alt="Alpes - Août 2025 paysage 3" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Alpes/l002.jpg" alt="Alpes paysage 2"></div>
+        <div class="landscape-container"><img src="Photos/France/Alpes/l003.jpg" alt="Alpes paysage 3"></div>
       </div>
     </section>
 
-    <!-- France - Bretagne -->
+    <!-- FRANCE – BRETAGNE -->
     <section id="france-bretagne" class="section hidden">
-      <h2>Bretagne - Août 2025 </h2>
+      <div class="section-header">
+        <div class="location-tag">France · Août 2025</div>
+        <h2>Bénodet</h2>
+        <p class="description">
+          Court séjour à Bénodet, ville cotière de Bretagne, nichée à l'embouchure de l'Odet. 
+        </p>
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/France/Bretagne/l001.jpg" alt="Bretagne - Août 2025 paysage 1" class="landscape">
-        </div>
         <div class="portrait-row">
-          <img src="Photos/France/Bretagne/p001.jpg" alt="Bretagne - Août 2025 portrait 1" class="portrait">
+          <div class="portrait"><img src="Photos/France/Bretagne/p001.jpg" alt="Bretagne portrait 1"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Bretagne/l002.jpg" alt="Bretagne - Août 2025 paysage 2" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Bretagne/l002.jpg" alt="Bretagne paysage 2"></div>
       </div>
     </section>
 
-    <!-- France - Préfailles -->
+    <!-- FRANCE – PRÉFAILLES -->
     <section id="france-prefailles" class="section hidden">
-      <h2>Préfailles - Juin & Juillet 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">France · Juin &amp; Juillet 2025</div>
+        <h2>Préfailles</h2>
+        <p class="description">
+          Un été à Préfailles avec les copains, situé sur la côte de Jade en face de Noirmoutier.  
+        <p class="film-note">Canon T70 · Kodak Ultramax 400</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l001.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 1" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l001.jpg" alt="Préfailles paysage 1"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Préfailles/p001.jpg" alt="Préfailles - Juin & Juillet 2025 portrait 1" class="portrait">
-          <img src="Photos/France/Préfailles/p002.jpg" alt="Préfailles - Juin & Juillet 2025 portrait 2" class="portrait">
+          <div class="portrait"><img src="Photos/France/Préfailles/p001.jpg" alt="Préfailles portrait 1"></div>
+          <div class="portrait"><img src="Photos/France/Préfailles/p002.jpg" alt="Préfailles portrait 2"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l002.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 2" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l002.jpg" alt="Préfailles paysage 2"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Préfailles/p003.jpg" alt="Préfailles - Juin & Juillet 2025 portrait 3" class="portrait">
-          <img src="Photos/France/Préfailles/p004.jpg" alt="Préfailles - Juin & Juillet 2025 portrait 4" class="portrait">
+          <div class="portrait"><img src="Photos/France/Préfailles/p003.jpg" alt="Préfailles portrait 3"></div>
+          <div class="portrait"><img src="Photos/France/Préfailles/p004.jpg" alt="Préfailles portrait 4"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l003.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 3" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l003.jpg" alt="Préfailles paysage 3"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Préfailles/p005.jpg" alt="Préfailles - Juin & Juillet 2025 portrait 5" class="portrait">
+          <div class="portrait"><img src="Photos/France/Préfailles/p005.jpg" alt="Préfailles portrait 5"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l004.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 4" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l005.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 5" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l006.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 6" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l007.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 7" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l008.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 8" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l009.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 9" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l010.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 10" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l011.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 11" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l012.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 12" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l013.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 13" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l014.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 14" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l015.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 15" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l016.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 16" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l017.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 17" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l018.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 18" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l019.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 19" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l020.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 20" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l021.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 21" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l022.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 22" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l023.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 23" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l024.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 24" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l025.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 25" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l026.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 26" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l027.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 27" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l028.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 28" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l029.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 29" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l030.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 30" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l031.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 31" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l032.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 32" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l033.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 33" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l034.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 34" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Préfailles/l035.jpg" alt="Préfailles - Juin & Juillet 2025 paysage 35" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l004.jpg" alt="Préfailles paysage 4"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l005.jpg" alt="Préfailles paysage 5"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l006.jpg" alt="Préfailles paysage 6"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l007.jpg" alt="Préfailles paysage 7"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l008.jpg" alt="Préfailles paysage 8"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l009.jpg" alt="Préfailles paysage 9"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l010.jpg" alt="Préfailles paysage 10"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l011.jpg" alt="Préfailles paysage 11"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l012.jpg" alt="Préfailles paysage 12"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l013.jpg" alt="Préfailles paysage 13"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l014.jpg" alt="Préfailles paysage 14"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l015.jpg" alt="Préfailles paysage 15"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l016.jpg" alt="Préfailles paysage 16"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l017.jpg" alt="Préfailles paysage 17"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l018.jpg" alt="Préfailles paysage 18"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l019.jpg" alt="Préfailles paysage 19"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l020.jpg" alt="Préfailles paysage 20"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l021.jpg" alt="Préfailles paysage 21"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l022.jpg" alt="Préfailles paysage 22"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l023.jpg" alt="Préfailles paysage 23"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l024.jpg" alt="Préfailles paysage 24"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l025.jpg" alt="Préfailles paysage 25"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l026.jpg" alt="Préfailles paysage 26"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l027.jpg" alt="Préfailles paysage 27"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l028.jpg" alt="Préfailles paysage 28"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l029.jpg" alt="Préfailles paysage 29"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l030.jpg" alt="Préfailles paysage 30"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l031.jpg" alt="Préfailles paysage 31"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l032.jpg" alt="Préfailles paysage 32"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l033.jpg" alt="Préfailles paysage 33"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l034.jpg" alt="Préfailles paysage 34"></div>
+        <div class="landscape-container"><img src="Photos/France/Préfailles/l035.jpg" alt="Préfailles paysage 35"></div>
       </div>
     </section>
 
-    <!-- France - Vosges -->
+    <!-- FRANCE – VOSGES -->
     <section id="france-vosges" class="section hidden">
-      <h2>Vosges - Août 2025 </h2>
+      <div class="section-header">
+        <div class="location-tag">France · Août 2025</div>
+        <h2>Les Vosges</h2>
+        <p class="description">
+          Séjour dans les Vosges à Allarmont. Randonnée au lac de Pierre-Percée
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l001.jpg" alt="Vosges - Août 2025 paysage 1" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l001.jpg" alt="Vosges paysage 1"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p001.jpg" alt="Vosges - Août 2025 portrait 1" class="portrait">
-          <img src="Photos/France/Vosges/p002.jpg" alt="Vosges - Août 2025 portrait 2" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p001.jpg" alt="Vosges portrait 1"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p002.jpg" alt="Vosges portrait 2"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l002.jpg" alt="Vosges - Août 2025 paysage 2" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l002.jpg" alt="Vosges paysage 2"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p003.jpg" alt="Vosges - Août 2025 portrait 3" class="portrait">
-          <img src="Photos/France/Vosges/p004.jpg" alt="Vosges - Août 2025 portrait 4" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p003.jpg" alt="Vosges portrait 3"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p004.jpg" alt="Vosges portrait 4"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l003.jpg" alt="Vosges - Août 2025 paysage 3" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l003.jpg" alt="Vosges paysage 3"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p005.jpg" alt="Vosges - Août 2025 portrait 5" class="portrait">
-          <img src="Photos/France/Vosges/p006.jpg" alt="Vosges - Août 2025 portrait 6" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p005.jpg" alt="Vosges portrait 5"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p006.jpg" alt="Vosges portrait 6"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l004.jpg" alt="Vosges - Août 2025 paysage 4" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l004.jpg" alt="Vosges paysage 4"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p007.jpg" alt="Vosges - Août 2025 portrait 7" class="portrait">
-          <img src="Photos/France/Vosges/p008.jpg" alt="Vosges - Août 2025 portrait 8" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p007.jpg" alt="Vosges portrait 7"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p008.jpg" alt="Vosges portrait 8"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l005.jpg" alt="Vosges - Août 2025 paysage 5" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l005.jpg" alt="Vosges paysage 5"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p009.jpg" alt="Vosges - Août 2025 portrait 9" class="portrait">
-          <img src="Photos/France/Vosges/p010.jpg" alt="Vosges - Août 2025 portrait 10" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p009.jpg" alt="Vosges portrait 9"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p010.jpg" alt="Vosges portrait 10"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l006.jpg" alt="Vosges - Août 2025 paysage 6" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l006.jpg" alt="Vosges paysage 6"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p011.jpg" alt="Vosges - Août 2025 portrait 11" class="portrait">
-          <img src="Photos/France/Vosges/p012.jpg" alt="Vosges - Août 2025 portrait 12" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p011.jpg" alt="Vosges portrait 11"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p012.jpg" alt="Vosges portrait 12"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l007.jpg" alt="Vosges - Août 2025 paysage 7" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l007.jpg" alt="Vosges paysage 7"></div>
         <div class="portrait-row">
-          <img src="Photos/France/Vosges/p013.jpg" alt="Vosges - Août 2025 portrait 13" class="portrait">
-          <img src="Photos/France/Vosges/p014.jpg" alt="Vosges - Août 2025 portrait 14" class="portrait">
+          <div class="portrait"><img src="Photos/France/Vosges/p013.jpg" alt="Vosges portrait 13"></div>
+          <div class="portrait"><img src="Photos/France/Vosges/p014.jpg" alt="Vosges portrait 14"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/France/Vosges/l008.jpg" alt="Vosges - Août 2025 paysage 8" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p015.jpg" alt="Vosges - Août 2025 portrait 15" class="portrait">
-          <img src="Photos/France/Vosges/p016.jpg" alt="Vosges - Août 2025 portrait 16" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p017.jpg" alt="Vosges - Août 2025 portrait 17" class="portrait">
-          <img src="Photos/France/Vosges/p018.jpg" alt="Vosges - Août 2025 portrait 18" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p019.jpg" alt="Vosges - Août 2025 portrait 19" class="portrait">
-          <img src="Photos/France/Vosges/p020.jpg" alt="Vosges - Août 2025 portrait 20" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p021.jpg" alt="Vosges - Août 2025 portrait 21" class="portrait">
-          <img src="Photos/France/Vosges/p022.jpg" alt="Vosges - Août 2025 portrait 22" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p023.jpg" alt="Vosges - Août 2025 portrait 23" class="portrait">
-          <img src="Photos/France/Vosges/p024.jpg" alt="Vosges - Août 2025 portrait 24" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p025.jpg" alt="Vosges - Août 2025 portrait 25" class="portrait">
-          <img src="Photos/France/Vosges/p026.jpg" alt="Vosges - Août 2025 portrait 26" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p027.jpg" alt="Vosges - Août 2025 portrait 27" class="portrait">
-          <img src="Photos/France/Vosges/p028.jpg" alt="Vosges - Août 2025 portrait 28" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p029.jpg" alt="Vosges - Août 2025 portrait 29" class="portrait">
-          <img src="Photos/France/Vosges/p030.jpg" alt="Vosges - Août 2025 portrait 30" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p031.jpg" alt="Vosges - Août 2025 portrait 31" class="portrait">
-          <img src="Photos/France/Vosges/p032.jpg" alt="Vosges - Août 2025 portrait 32" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p033.jpg" alt="Vosges - Août 2025 portrait 33" class="portrait">
-          <img src="Photos/France/Vosges/p034.jpg" alt="Vosges - Août 2025 portrait 34" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p035.jpg" alt="Vosges - Août 2025 portrait 35" class="portrait">
-          <img src="Photos/France/Vosges/p036.jpg" alt="Vosges - Août 2025 portrait 36" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/France/Vosges/p037.jpg" alt="Vosges - Août 2025 portrait 37" class="portrait">
-        </div>
+        <div class="landscape-container"><img src="Photos/France/Vosges/l008.jpg" alt="Vosges paysage 8"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p015.jpg" alt="Vosges portrait 15"></div><div class="portrait"><img src="Photos/France/Vosges/p016.jpg" alt="Vosges portrait 16"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p017.jpg" alt="Vosges portrait 17"></div><div class="portrait"><img src="Photos/France/Vosges/p018.jpg" alt="Vosges portrait 18"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p019.jpg" alt="Vosges portrait 19"></div><div class="portrait"><img src="Photos/France/Vosges/p020.jpg" alt="Vosges portrait 20"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p021.jpg" alt="Vosges portrait 21"></div><div class="portrait"><img src="Photos/France/Vosges/p022.jpg" alt="Vosges portrait 22"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p023.jpg" alt="Vosges portrait 23"></div><div class="portrait"><img src="Photos/France/Vosges/p024.jpg" alt="Vosges portrait 24"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p025.jpg" alt="Vosges portrait 25"></div><div class="portrait"><img src="Photos/France/Vosges/p026.jpg" alt="Vosges portrait 26"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p027.jpg" alt="Vosges portrait 27"></div><div class="portrait"><img src="Photos/France/Vosges/p028.jpg" alt="Vosges portrait 28"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p029.jpg" alt="Vosges portrait 29"></div><div class="portrait"><img src="Photos/France/Vosges/p030.jpg" alt="Vosges portrait 30"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p031.jpg" alt="Vosges portrait 31"></div><div class="portrait"><img src="Photos/France/Vosges/p032.jpg" alt="Vosges portrait 32"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p033.jpg" alt="Vosges portrait 33"></div><div class="portrait"><img src="Photos/France/Vosges/p034.jpg" alt="Vosges portrait 34"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p035.jpg" alt="Vosges portrait 35"></div><div class="portrait"><img src="Photos/France/Vosges/p036.jpg" alt="Vosges portrait 36"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/France/Vosges/p037.jpg" alt="Vosges portrait 37"></div></div>
       </div>
     </section>
 
-    <!-- Suisse -->
-    <!-- Suisse - Lausanne -->
+    <!-- SUISSE – LAUSANNE -->
     <section id="swiss-lausanne" class="section hidden">
-      <h2>Lausanne - Mai 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Suisse · Mai 2025</div>
+        <h2>Lausanne</h2>
+        <p class="description">
+          Quelques photos prises à Lausanne, ville suisse au bord du lac Léman. 
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l001.jpg" alt="Lausanne - Mai 2025 paysage 1" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l002.jpg" alt="Lausanne - Mai 2025 paysage 2" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l003.jpg" alt="Lausanne - Mai 2025 paysage 3" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l004.jpg" alt="Lausanne - Mai 2025 paysage 4" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l005.jpg" alt="Lausanne - Mai 2025 paysage 5" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l006.jpg" alt="Lausanne - Mai 2025 paysage 6" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lausanne/l007.jpg" alt="Lausanne - Mai 2025 paysage 7" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l001.jpg" alt="Lausanne paysage 1"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l002.jpg" alt="Lausanne paysage 2"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l003.jpg" alt="Lausanne paysage 3"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l004.jpg" alt="Lausanne paysage 4"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l005.jpg" alt="Lausanne paysage 5"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l006.jpg" alt="Lausanne paysage 6"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lausanne/l007.jpg" alt="Lausanne paysage 7"></div>
       </div>
     </section>
 
-    <!-- Suisse - Alpes Suisses -->
+    <!-- SUISSE – LAC LIOSON -->
     <section id="swiss-alpes" class="section hidden">
-      <h2>Lac Lioson - Juin 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Suisse · Juin 2025</div>
+        <h2>Lac Lioson</h2>
+        <p class="description">
+          Randonée au lac de Lioson situé dans le canton de Vaud en Suisse. 
+        </p>
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l001.jpg" alt="Lac Lioson - Juin 2025 paysage 1" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Suisse/Lioson Lake/p001.jpg" alt="Lac Lioson - Juin 2025 portrait 1" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l002.jpg" alt="Lac Lioson - Juin 2025 paysage 2" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l003.jpg" alt="Lac Lioson - Juin 2025 paysage 3" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l004.jpg" alt="Lac Lioson - Juin 2025 paysage 4" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l005.jpg" alt="Lac Lioson - Juin 2025 paysage 5" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l006.jpg" alt="Lac Lioson - Juin 2025 paysage 6" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l007.jpg" alt="Lac Lioson - Juin 2025 paysage 7" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l008.jpg" alt="Lac Lioson - Juin 2025 paysage 8" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l009.jpg" alt="Lac Lioson - Juin 2025 paysage 9" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Suisse/Lioson Lake/l010.jpg" alt="Lac Lioson - Juin 2025 paysage 10" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l001.jpg" alt="Lac Lioson paysage 1"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l002.jpg" alt="Lac Lioson paysage 2"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l003.jpg" alt="Lac Lioson paysage 3"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l004.jpg" alt="Lac Lioson paysage 4"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l005.jpg" alt="Lac Lioson paysage 5"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l006.jpg" alt="Lac Lioson paysage 6"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l007.jpg" alt="Lac Lioson paysage 7"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l008.jpg" alt="Lac Lioson paysage 8"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l009.jpg" alt="Lac Lioson paysage 9"></div>
+        <div class="landscape-container"><img src="Photos/Suisse/Lioson Lake/l010.jpg" alt="Lac Lioson paysage 10"></div>
       </div>
     </section>
 
-    <!-- Italie -->
+    <!-- ITALIE -->
     <section id="italy" class="section hidden">
-      <h2>Italie, Vallée d'Aoste - Mai 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Italie · Mai 2025</div>
+        <h2>Vallée d'Aoste</h2>
+        <p class="description">
+          Séjour dans la Vallée d'Aoste, randonnée aux cascades de Lillaz proche du parc national du Grand Paradis. Puis passage à Courmayeur puis Aoste. 
+        </p>
+        <p class="film-note">Canon T70 · Kodak Gold 200</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Italie/l001.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 1" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l002.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 2" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l003.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 3" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l004.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 5" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l005.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 6" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l006.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 7" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l007.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 8" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l008.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 9" class="landscape">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Italie/l009.jpg" alt="Italie, Vallée d'Aoste - Mai 2025 paysage 10" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/Italie/l001.jpg" alt="Vallée d'Aoste paysage 1"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l002.jpg" alt="Vallée d'Aoste paysage 2"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l003.jpg" alt="Vallée d'Aoste paysage 3"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l004.jpg" alt="Vallée d'Aoste paysage 4"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l005.jpg" alt="Vallée d'Aoste paysage 5"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l006.jpg" alt="Vallée d'Aoste paysage 6"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l007.jpg" alt="Vallée d'Aoste paysage 7"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l008.jpg" alt="Vallée d'Aoste paysage 8"></div>
+        <div class="landscape-container"><img src="Photos/Italie/l009.jpg" alt="Vallée d'Aoste paysage 9"></div>
       </div>
     </section>
 
-    <!-- Australie - Melbourne City -->
+    <!-- NOUVELLE-ZÉLANDE -->
+    <section id="nouvelle-zelande" class="section hidden">
+      <div class="section-header">
+        <div class="location-tag">Nouvelle-Zélande · À venir</div>
+        <h2>Nouvelle-Zélande</h2>
+        <p class="description">
+        </p>
+        <p class="film-note">Canon T70 · </p>
+      </div>
+      <div class="gallery">
+        <!-- Les photos seront ajoutées ici : Photos/Nouvelle-Zelande/l001.jpg ... -->
+      </div>
+    </section>
+
+    <!-- POLYNÉSIE -->
+    <section id="polynesie" class="section hidden">
+      <div class="section-header">
+        <div class="location-tag">Polynésie · À venir</div>
+        <h2>Polynésie</h2>
+        <p class="description">
+        </p>
+        <p class="film-note">Canon T70 ·</p>
+      </div>
+      <div class="gallery">
+        <!-- Les photos seront ajoutées ici : Photos/Polynésie/l001.jpg ... -->
+      </div>
+    </section>
+
+    <!-- AUSTRALIE – MELBOURNE -->
     <section id="australia-melbourne" class="section hidden">
-      <h2>Melbourne City - 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Australie · 2025</div>
+        <h2>Melbourne</h2>
+        <p class="description">
+          Quelques photos des sept mois passés à Melbourne en Australie. 
+        </p>
+        <p class="film-note">Canon T70 · Kodak Ultramax 400</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l001.jpg" alt="Melbourne City - 2025 paysage 1" class="landscape">
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l001.jpg" alt="Melbourne paysage 1"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p001.jpg" alt="Melbourne portrait 1"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p002.jpg" alt="Melbourne portrait 2"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l002.jpg" alt="Melbourne paysage 2"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p003.jpg" alt="Melbourne portrait 3"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p004.jpg" alt="Melbourne portrait 4"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l003.jpg" alt="Melbourne paysage 3"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p005.jpg" alt="Melbourne portrait 5"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p006.jpg" alt="Melbourne portrait 6"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l004.jpg" alt="Melbourne paysage 4"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p007.jpg" alt="Melbourne portrait 7"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p008.jpg" alt="Melbourne portrait 8"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l005.jpg" alt="Melbourne paysage 5"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p009.jpg" alt="Melbourne portrait 9"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p010.jpg" alt="Melbourne portrait 10"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l006.jpg" alt="Melbourne paysage 6"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p011.jpg" alt="Melbourne portrait 11"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p012.jpg" alt="Melbourne portrait 12"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l007.jpg" alt="Melbourne paysage 7"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p013.jpg" alt="Melbourne portrait 13"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p014.jpg" alt="Melbourne portrait 14"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l008.jpg" alt="Melbourne paysage 8"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p015.jpg" alt="Melbourne portrait 15"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p016.jpg" alt="Melbourne portrait 16"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l009.jpg" alt="Melbourne paysage 9"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p017.jpg" alt="Melbourne portrait 17"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p018.jpg" alt="Melbourne portrait 18"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l010.jpg" alt="Melbourne paysage 10"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p019.jpg" alt="Melbourne portrait 19"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p020.jpg" alt="Melbourne portrait 20"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l011.jpg" alt="Melbourne paysage 11"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p021.jpg" alt="Melbourne portrait 21"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p022.jpg" alt="Melbourne portrait 22"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l012.jpg" alt="Melbourne paysage 12"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p023.jpg" alt="Melbourne portrait 23"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p024.jpg" alt="Melbourne portrait 24"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l013.jpg" alt="Melbourne paysage 13"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p025.jpg" alt="Melbourne portrait 25"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p026.jpg" alt="Melbourne portrait 26"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l014.jpg" alt="Melbourne paysage 14"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p027.jpg" alt="Melbourne portrait 27"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p028.jpg" alt="Melbourne portrait 28"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l015.jpg" alt="Melbourne paysage 15"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p029.jpg" alt="Melbourne portrait 29"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p030.jpg" alt="Melbourne portrait 30"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l016.jpg" alt="Melbourne paysage 16"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p031.jpg" alt="Melbourne portrait 31"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p032.jpg" alt="Melbourne portrait 32"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l017.jpg" alt="Melbourne paysage 17"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p033.jpg" alt="Melbourne portrait 33"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p034.jpg" alt="Melbourne portrait 34"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l018.jpg" alt="Melbourne paysage 18"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p035.jpg" alt="Melbourne portrait 35"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p037.jpg" alt="Melbourne portrait 36"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l019.jpg" alt="Melbourne paysage 19"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p037.jpg" alt="Melbourne portrait 37"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p038.jpg" alt="Melbourne portrait 38"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l020.jpg" alt="Melbourne paysage 20"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p039.jpg" alt="Melbourne portrait 39"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p040.jpg" alt="Melbourne portrait 40"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l021.jpg" alt="Melbourne paysage 21"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p041.jpg" alt="Melbourne portrait 41"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p042.jpg" alt="Melbourne portrait 42"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l022.jpg" alt="Melbourne paysage 22"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p043.jpg" alt="Melbourne portrait 43"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p044.jpg" alt="Melbourne portrait 44"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l023.jpg" alt="Melbourne paysage 23"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p045.jpg" alt="Melbourne portrait 45"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p046.jpg" alt="Melbourne portrait 46"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/l024.jpg" alt="Melbourne paysage 24"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p047.jpg" alt="Melbourne portrait 47"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p048.jpg" alt="Melbourne portrait 48"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p049.jpg" alt="Melbourne portrait 49"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p050.jpg" alt="Melbourne portrait 50"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p051.jpg" alt="Melbourne portrait 51"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p052.jpg" alt="Melbourne portrait 52"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p053.jpg" alt="Melbourne portrait 53"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p054.jpg" alt="Melbourne portrait 54"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p055.jpg" alt="Melbourne portrait 55"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p056.jpg" alt="Melbourne portrait 56"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p058.jpg" alt="Melbourne portrait 57"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p059.jpg" alt="Melbourne portrait 58"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p060.jpg" alt="Melbourne portrait 59"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p061.jpg" alt="Melbourne portrait 60"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p062.jpg" alt="Melbourne portrait 61"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p063.jpg" alt="Melbourne portrait 62"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p064.jpg" alt="Melbourne portrait 63"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p065.jpg" alt="Melbourne portrait 64"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p066.jpg" alt="Melbourne portrait 65"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p067.jpg" alt="Melbourne portrait 66"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p068.jpg" alt="Melbourne portrait 67"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p069.jpg" alt="Melbourne portrait 68"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p070.jpg" alt="Melbourne portrait 69"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p071.jpg" alt="Melbourne portrait 70"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p072.jpg" alt="Melbourne portrait 71"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p073.jpg" alt="Melbourne portrait 72"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p074.jpg" alt="Melbourne portrait 73"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p075.jpg" alt="Melbourne portrait 74"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p076.jpg" alt="Melbourne portrait 75"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p077.jpg" alt="Melbourne portrait 76"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p078.jpg" alt="Melbourne portrait 77"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p079.jpg" alt="Melbourne portrait 78"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p080.jpg" alt="Melbourne portrait 79"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p081.jpg" alt="Melbourne portrait 80"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p082.jpg" alt="Melbourne portrait 81"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p083.jpg" alt="Melbourne portrait 82"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p084.jpg" alt="Melbourne portrait 83"></div><div class="portrait"><img src="Photos/Australie/Melbourne-city/p085.jpg" alt="Melbourne portrait 84"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Melbourne-city/p086.jpg" alt="Melbourne portrait 85"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/008225330001.jpg" alt="Melbourne paysage"></div>
+        <div class="portrait-row">
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330002.jpg" alt="Melbourne portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330003.jpg" alt="Melbourne portrait"></div>
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p001.jpg" alt="Melbourne City - 2025 portrait 1" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p002.jpg" alt="Melbourne City - 2025 portrait 2" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330023.jpg" alt="Melbourne portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330033.jpg" alt="Melbourne portrait"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l002.jpg" alt="Melbourne City - 2025 paysage 2" class="landscape">
+        <div class="landscape-container"><img src="Photos/Australie/Melbourne-city/008225330032.jpg" alt="Melbourne paysage"></div>
+        <div class="portrait-row">
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330034.jpg" alt="Melbourne portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330035.jpg" alt="Melbourne portrait"></div>
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p003.jpg" alt="Melbourne City - 2025 portrait 3" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p004.jpg" alt="Melbourne City - 2025 portrait 4" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l003.jpg" alt="Melbourne City - 2025 paysage 3" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p005.jpg" alt="Melbourne City - 2025 portrait 5" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p006.jpg" alt="Melbourne City - 2025 portrait 6" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l004.jpg" alt="Melbourne City - 2025 paysage 4" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p007.jpg" alt="Melbourne City - 2025 portrait 7" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p008.jpg" alt="Melbourne City - 2025 portrait 8" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l005.jpg" alt="Melbourne City - 2025 paysage 5" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p009.jpg" alt="Melbourne City - 2025 portrait 9" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p010.jpg" alt="Melbourne City - 2025 portrait 10" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l006.jpg" alt="Melbourne City - 2025 paysage 6" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p011.jpg" alt="Melbourne City - 2025 portrait 11" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p012.jpg" alt="Melbourne City - 2025 portrait 12" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l007.jpg" alt="Melbourne City - 2025 paysage 7" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p013.jpg" alt="Melbourne City - 2025 portrait 13" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p014.jpg" alt="Melbourne City - 2025 portrait 14" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l008.jpg" alt="Melbourne City - 2025 paysage 8" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p015.jpg" alt="Melbourne City - 2025 portrait 15" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p016.jpg" alt="Melbourne City - 2025 portrait 16" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l009.jpg" alt="Melbourne City - 2025 paysage 9" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p017.jpg" alt="Melbourne City - 2025 portrait 17" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p018.jpg" alt="Melbourne City - 2025 portrait 18" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l010.jpg" alt="Melbourne City - 2025 paysage 10" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p019.jpg" alt="Melbourne City - 2025 portrait 19" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p020.jpg" alt="Melbourne City - 2025 portrait 20" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l011.jpg" alt="Melbourne City - 2025 paysage 11" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p021.jpg" alt="Melbourne City - 2025 portrait 21" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p022.jpg" alt="Melbourne City - 2025 portrait 22" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l012.jpg" alt="Melbourne City - 2025 paysage 12" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p023.jpg" alt="Melbourne City - 2025 portrait 23" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p024.jpg" alt="Melbourne City - 2025 portrait 24" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l013.jpg" alt="Melbourne City - 2025 paysage 13" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p025.jpg" alt="Melbourne City - 2025 portrait 25" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p026.jpg" alt="Melbourne City - 2025 portrait 26" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l014.jpg" alt="Melbourne City - 2025 paysage 14" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p027.jpg" alt="Melbourne City - 2025 portrait 27" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p028.jpg" alt="Melbourne City - 2025 portrait 28" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l015.jpg" alt="Melbourne City - 2025 paysage 15" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p029.jpg" alt="Melbourne City - 2025 portrait 29" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p030.jpg" alt="Melbourne City - 2025 portrait 30" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l016.jpg" alt="Melbourne City - 2025 paysage 16" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p031.jpg" alt="Melbourne City - 2025 portrait 31" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p032.jpg" alt="Melbourne City - 2025 portrait 32" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l017.jpg" alt="Melbourne City - 2025 paysage 17" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p033.jpg" alt="Melbourne City - 2025 portrait 33" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p034.jpg" alt="Melbourne City - 2025 portrait 34" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l018.jpg" alt="Melbourne City - 2025 paysage 18" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p035.jpg" alt="Melbourne City - 2025 portrait 35" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p037.jpg" alt="Melbourne City - 2025 portrait 36" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l019.jpg" alt="Melbourne City - 2025 paysage 19" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p037.jpg" alt="Melbourne City - 2025 portrait 37" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p038.jpg" alt="Melbourne City - 2025 portrait 38" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l020.jpg" alt="Melbourne City - 2025 paysage 20" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p039.jpg" alt="Melbourne City - 2025 portrait 39" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p040.jpg" alt="Melbourne City - 2025 portrait 40" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l021.jpg" alt="Melbourne City - 2025 paysage 21" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p041.jpg" alt="Melbourne City - 2025 portrait 41" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p042.jpg" alt="Melbourne City - 2025 portrait 42" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l022.jpg" alt="Melbourne City - 2025 paysage 22" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p043.jpg" alt="Melbourne City - 2025 portrait 43" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p044.jpg" alt="Melbourne City - 2025 portrait 44" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l023.jpg" alt="Melbourne City - 2025 paysage 23" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p045.jpg" alt="Melbourne City - 2025 portrait 45" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p046.jpg" alt="Melbourne City - 2025 portrait 46" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Melbourne-city/l024.jpg" alt="Melbourne City - 2025 paysage 24" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p047.jpg" alt="Melbourne City - 2025 portrait 47" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p048.jpg" alt="Melbourne City - 2025 portrait 48" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p049.jpg" alt="Melbourne City - 2025 portrait 49" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p050.jpg" alt="Melbourne City - 2025 portrait 50" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p051.jpg" alt="Melbourne City - 2025 portrait 51" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p052.jpg" alt="Melbourne City - 2025 portrait 52" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p053.jpg" alt="Melbourne City - 2025 portrait 53" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p054.jpg" alt="Melbourne City - 2025 portrait 54" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p055.jpg" alt="Melbourne City - 2025 portrait 55" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p056.jpg" alt="Melbourne City - 2025 portrait 56" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p058.jpg" alt="Melbourne City - 2025 portrait 57" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p059.jpg" alt="Melbourne City - 2025 portrait 58" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p060.jpg" alt="Melbourne City - 2025 portrait 59" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p061.jpg" alt="Melbourne City - 2025 portrait 60" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p062.jpg" alt="Melbourne City - 2025 portrait 61" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p063.jpg" alt="Melbourne City - 2025 portrait 62" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p064.jpg" alt="Melbourne City - 2025 portrait 63" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p065.jpg" alt="Melbourne City - 2025 portrait 64" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p066.jpg" alt="Melbourne City - 2025 portrait 65" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p067.jpg" alt="Melbourne City - 2025 portrait 66" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p068.jpg" alt="Melbourne City - 2025 portrait 67" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p069.jpg" alt="Melbourne City - 2025 portrait 68" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p070.jpg" alt="Melbourne City - 2025 portrait 69" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p071.jpg" alt="Melbourne City - 2025 portrait 70" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p072.jpg" alt="Melbourne City - 2025 portrait 71" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p073.jpg" alt="Melbourne City - 2025 portrait 72" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p074.jpg" alt="Melbourne City - 2025 portrait 73" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p075.jpg" alt="Melbourne City - 2025 portrait 74" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p076.jpg" alt="Melbourne City - 2025 portrait 75" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p077.jpg" alt="Melbourne City - 2025 portrait 76" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p078.jpg" alt="Melbourne City - 2025 portrait 77" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p079.jpg" alt="Melbourne City - 2025 portrait 78" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p080.jpg" alt="Melbourne City - 2025 portrait 79" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p081.jpg" alt="Melbourne City - 2025 portrait 80" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p082.jpg" alt="Melbourne City - 2025 portrait 81" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p083.jpg" alt="Melbourne City - 2025 portrait 82" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p084.jpg" alt="Melbourne City - 2025 portrait 83" class="portrait">
-          <img src="Photos/Australie/Melbourne-city/p085.jpg" alt="Melbourne City - 2025 portrait 84" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Melbourne-city/p086.jpg" alt="Melbourne City - 2025 portrait 85" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330036.jpg" alt="Melbourne portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Melbourne-city/008225330037.jpg" alt="Melbourne portrait"></div>
         </div>
       </div>
     </section>
 
-    <!-- Australie - Great Ocean Road -->
+    <!-- AUSTRALIE – GREAT OCEAN ROAD -->
     <section id="australia-great-ocean-road" class="section hidden">
-      <h2>Great Ocean Road - Oct. 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Australie · Octobre 2025</div>
+        <h2>Great Ocean Road</h2>
+        <p class="description">
+         Quelques photos de la Great Ocean Road, route côtière au bord de l'océan austral en Australie. Passage a Kennett River, Apollo Bay, Blanket Bay Campground et les twelve Apostles. 
+        </p>
+        <p class="film-note">Canon T70 · Kodak Gold 400</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l001.jpg" alt="Great Ocean Road - Oct. 2025 paysage 1" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p001.jpg" alt="Great Ocean Road - Oct. 2025 portrait 1" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p002.jpg" alt="Great Ocean Road - Oct. 2025 portrait 2" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l002.jpg" alt="Great Ocean Road - Oct. 2025 paysage 2" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p003.jpg" alt="Great Ocean Road - Oct. 2025 portrait 3" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p004.jpg" alt="Great Ocean Road - Oct. 2025 portrait 4" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l003.jpg" alt="Great Ocean Road - Oct. 2025 paysage 3" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p005.jpg" alt="Great Ocean Road - Oct. 2025 portrait 5" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p006.jpg" alt="Great Ocean Road - Oct. 2025 portrait 6" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l004.jpg" alt="Great Ocean Road - Oct. 2025 paysage 4" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p007.jpg" alt="Great Ocean Road - Oct. 2025 portrait 7" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p008.jpg" alt="Great Ocean Road - Oct. 2025 portrait 8" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l005.jpg" alt="Great Ocean Road - Oct. 2025 paysage 5" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p009.jpg" alt="Great Ocean Road - Oct. 2025 portrait 9" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p010.jpg" alt="Great Ocean Road - Oct. 2025 portrait 10" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l006.jpg" alt="Great Ocean Road - Oct. 2025 paysage 6" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p011.jpg" alt="Great Ocean Road - Oct. 2025 portrait 11" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p012.jpg" alt="Great Ocean Road - Oct. 2025 portrait 12" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/GreatOceanRoad/l007.jpg" alt="Great Ocean Road - Oct. 2025 paysage 7" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p013.jpg" alt="Great Ocean Road - Oct. 2025 portrait 13" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p014.jpg" alt="Great Ocean Road - Oct. 2025 portrait 14" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p015.jpg" alt="Great Ocean Road - Oct. 2025 portrait 15" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p016.jpg" alt="Great Ocean Road - Oct. 2025 portrait 16" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p017.jpg" alt="Great Ocean Road - Oct. 2025 portrait 17" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p018.jpg" alt="Great Ocean Road - Oct. 2025 portrait 18" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p019.jpg" alt="Great Ocean Road - Oct. 2025 portrait 19" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p020.jpg" alt="Great Ocean Road - Oct. 2025 portrait 20" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/GreatOceanRoad/p021.jpg" alt="Great Ocean Road - Oct. 2025 portrait 21" class="portrait">
-          <img src="Photos/Australie/GreatOceanRoad/p022.jpg" alt="Great Ocean Road - Oct. 2025 portrait 22" class="portrait">
-        </div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l001.jpg" alt="Great Ocean Road paysage 1"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p001.jpg" alt="Great Ocean Road portrait 1"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p002.jpg" alt="Great Ocean Road portrait 2"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l002.jpg" alt="Great Ocean Road paysage 2"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p003.jpg" alt="Great Ocean Road portrait 3"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p004.jpg" alt="Great Ocean Road portrait 4"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l003.jpg" alt="Great Ocean Road paysage 3"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p005.jpg" alt="Great Ocean Road portrait 5"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p006.jpg" alt="Great Ocean Road portrait 6"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l004.jpg" alt="Great Ocean Road paysage 4"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p007.jpg" alt="Great Ocean Road portrait 7"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p008.jpg" alt="Great Ocean Road portrait 8"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l005.jpg" alt="Great Ocean Road paysage 5"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p009.jpg" alt="Great Ocean Road portrait 9"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p010.jpg" alt="Great Ocean Road portrait 10"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l006.jpg" alt="Great Ocean Road paysage 6"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p011.jpg" alt="Great Ocean Road portrait 11"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p012.jpg" alt="Great Ocean Road portrait 12"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/GreatOceanRoad/l007.jpg" alt="Great Ocean Road paysage 7"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p013.jpg" alt="Great Ocean Road portrait 13"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p014.jpg" alt="Great Ocean Road portrait 14"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p015.jpg" alt="Great Ocean Road portrait 15"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p016.jpg" alt="Great Ocean Road portrait 16"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p017.jpg" alt="Great Ocean Road portrait 17"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p018.jpg" alt="Great Ocean Road portrait 18"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p019.jpg" alt="Great Ocean Road portrait 19"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p020.jpg" alt="Great Ocean Road portrait 20"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p021.jpg" alt="Great Ocean Road portrait 21"></div><div class="portrait"><img src="Photos/Australie/GreatOceanRoad/p022.jpg" alt="Great Ocean Road portrait 22"></div></div>
       </div>
     </section>
 
-    <!-- Australie - Roadtrip -->
+    <!-- AUSTRALIE – ROADTRIP -->
     <section id="australia-roadtrip" class="section hidden">
-      <h2>Roadtrip - Melbourne to Sydney -Dec 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Australie · Décembre 2025</div>
+        <h2>Roadtrip · Melbourne → Sydney</h2>
+        <p class="description">
+          Roadtrip de Melbourne à Sydney pendant 10 jours en passant par les montagnes du Victoria puis Beechworth, Corryong puis Mont Kosciuszko le plus haut sommet d'Australie (2228 m d'altitude). Stop au lac de Jindabyne puis direction les plages du New South Wales: Merimbula, Durras, Batemans Bay, Jervis Bay puis Sydney. 
+        <p class="film-note">Canon T70 · Kodak Ultramax 400 </p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l001.jpg" alt="Roadtrip - 2025 paysage 1" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p001.jpg" alt="Roadtrip - 2025 portrait 1" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p002.jpg" alt="Roadtrip - 2025 portrait 2" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l001.jpg" alt="Roadtrip - 2025 paysage 2" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p003.jpg" alt="Roadtrip - 2025 portrait 3" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p004.jpg" alt="Roadtrip - 2025 portrait 4" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l002.jpg" alt="Roadtrip - 2025 paysage 3" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p005.jpg" alt="Roadtrip - 2025 portrait 5" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p006.jpg" alt="Roadtrip - 2025 portrait 6" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l003.jpg" alt="Roadtrip - 2025 paysage 4" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p007.jpg" alt="Roadtrip - 2025 portrait 7" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p008.jpg" alt="Roadtrip - 2025 portrait 8" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l004.jpg" alt="Roadtrip - 2025 paysage 5" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p009.jpg" alt="Roadtrip - 2025 portrait 9" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p010.jpg" alt="Roadtrip - 2025 portrait 10" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l005.jpg" alt="Roadtrip - 2025 paysage 6" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p011.jpg" alt="Roadtrip - 2025 portrait 11" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p012.jpg" alt="Roadtrip - 2025 portrait 12" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l006.jpg" alt="Roadtrip - 2025 paysage 7" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p013.jpg" alt="Roadtrip - 2025 portrait 13" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p014.jpg" alt="Roadtrip - 2025 portrait 14" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l007.jpg" alt="Roadtrip - 2025 paysage 8" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p015.jpg" alt="Roadtrip - 2025 portrait 15" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p016.jpg" alt="Roadtrip - 2025 portrait 16" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l008.jpg" alt="Roadtrip - 2025 paysage 9" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p017.jpg" alt="Roadtrip - 2025 portrait 17" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p018.jpg" alt="Roadtrip - 2025 portrait 18" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l009.jpg" alt="Roadtrip - 2025 paysage 10" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p019.jpg" alt="Roadtrip - 2025 portrait 19" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p020.jpg" alt="Roadtrip - 2025 portrait 20" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l010.jpg" alt="Roadtrip - 2025 paysage 11" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p021.jpg" alt="Roadtrip - 2025 portrait 21" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p022.jpg" alt="Roadtrip - 2025 portrait 22" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l011.jpg" alt="Roadtrip - 2025 paysage 12" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p023.jpg" alt="Roadtrip - 2025 portrait 23" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p024.jpg" alt="Roadtrip - 2025 portrait 24" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l012.jpg" alt="Roadtrip - 2025 paysage 13" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p025.jpg" alt="Roadtrip - 2025 portrait 25" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p026.jpg" alt="Roadtrip - 2025 portrait 26" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l013.jpg" alt="Roadtrip - 2025 paysage 14" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p027.jpg" alt="Roadtrip - 2025 portrait 27" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p028.jpg" alt="Roadtrip - 2025 portrait 28" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l014.jpg" alt="Roadtrip - 2025 paysage 15" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p029.jpg" alt="Roadtrip - 2025 portrait 29" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p030.jpg" alt="Roadtrip - 2025 portrait 30" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l015.jpg" alt="Roadtrip - 2025 paysage 16" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p031.jpg" alt="Roadtrip - 2025 portrait 31" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p032.jpg" alt="Roadtrip - 2025 portrait 32" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l016.jpg" alt="Roadtrip - 2025 paysage 17" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p033.jpg" alt="Roadtrip - 2025 portrait 33" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p034.jpg" alt="Roadtrip - 2025 portrait 34" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Roadtrip/l017.jpg" alt="Roadtrip - 2025 paysage 18" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p035.jpg" alt="Roadtrip - 2025 portrait 35" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p036.jpg" alt="Roadtrip - 2025 portrait 36" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p037.jpg" alt="Roadtrip - 2025 portrait 37" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p038.jpg" alt="Roadtrip - 2025 portrait 38" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p039.jpg" alt="Roadtrip - 2025 portrait 39" class="portrait">
-          <img src="Photos/Australie/Roadtrip/p040.jpg" alt="Roadtrip - 2025 portrait 40" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Roadtrip/p041.jpg" alt="Roadtrip - 2025 portrait 41" class="portrait">
-        </div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l001.jpg" alt="Roadtrip paysage 1"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p001.jpg" alt="Roadtrip portrait 1"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p002.jpg" alt="Roadtrip portrait 2"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l002.jpg" alt="Roadtrip paysage 2"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p003.jpg" alt="Roadtrip portrait 3"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p004.jpg" alt="Roadtrip portrait 4"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l003.jpg" alt="Roadtrip paysage 3"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p005.jpg" alt="Roadtrip portrait 5"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p006.jpg" alt="Roadtrip portrait 6"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l004.jpg" alt="Roadtrip paysage 4"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p007.jpg" alt="Roadtrip portrait 7"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p008.jpg" alt="Roadtrip portrait 8"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l005.jpg" alt="Roadtrip paysage 5"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p009.jpg" alt="Roadtrip portrait 9"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p010.jpg" alt="Roadtrip portrait 10"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l006.jpg" alt="Roadtrip paysage 6"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p011.jpg" alt="Roadtrip portrait 11"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p012.jpg" alt="Roadtrip portrait 12"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l007.jpg" alt="Roadtrip paysage 7"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p013.jpg" alt="Roadtrip portrait 13"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p014.jpg" alt="Roadtrip portrait 14"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l008.jpg" alt="Roadtrip paysage 8"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p015.jpg" alt="Roadtrip portrait 15"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p016.jpg" alt="Roadtrip portrait 16"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l009.jpg" alt="Roadtrip paysage 9"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p017.jpg" alt="Roadtrip portrait 17"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p018.jpg" alt="Roadtrip portrait 18"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l010.jpg" alt="Roadtrip paysage 10"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p019.jpg" alt="Roadtrip portrait 19"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p020.jpg" alt="Roadtrip portrait 20"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l011.jpg" alt="Roadtrip paysage 11"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p021.jpg" alt="Roadtrip portrait 21"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p022.jpg" alt="Roadtrip portrait 22"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l012.jpg" alt="Roadtrip paysage 12"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p023.jpg" alt="Roadtrip portrait 23"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p024.jpg" alt="Roadtrip portrait 24"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l013.jpg" alt="Roadtrip paysage 13"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p025.jpg" alt="Roadtrip portrait 25"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p026.jpg" alt="Roadtrip portrait 26"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l014.jpg" alt="Roadtrip paysage 14"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p027.jpg" alt="Roadtrip portrait 27"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p028.jpg" alt="Roadtrip portrait 28"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l015.jpg" alt="Roadtrip paysage 15"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p029.jpg" alt="Roadtrip portrait 29"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p030.jpg" alt="Roadtrip portrait 30"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l016.jpg" alt="Roadtrip paysage 16"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p031.jpg" alt="Roadtrip portrait 31"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p032.jpg" alt="Roadtrip portrait 32"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Roadtrip/l017.jpg" alt="Roadtrip paysage 17"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p033.jpg" alt="Roadtrip portrait 33"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p034.jpg" alt="Roadtrip portrait 34"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p035.jpg" alt="Roadtrip portrait 35"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p036.jpg" alt="Roadtrip portrait 36"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p037.jpg" alt="Roadtrip portrait 37"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p038.jpg" alt="Roadtrip portrait 38"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p039.jpg" alt="Roadtrip portrait 39"></div><div class="portrait"><img src="Photos/Australie/Roadtrip/p040.jpg" alt="Roadtrip portrait 40"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Roadtrip/p041.jpg" alt="Roadtrip portrait 41"></div></div>
       </div>
     </section>
 
-    <!-- Australie - Phillip Island -->
+    <!-- AUSTRALIE – PHILLIP ISLAND -->
     <section id="australia-philip-island" class="section hidden">
-      <h2>Phillip Island - Nov. 2025</h2>
+      <div class="section-header">
+        <div class="location-tag">Australie · Novembre 2025</div>
+        <h2>Phillip Island</h2>
+        <p class="description">
+          Passage a Phillip Island, île au sud de Melnourne située à 140 km de la ville. Randonnée au Cape Woolomai puis visite du sanctuaire de Koalas et de la pointe Nobbies.
+        </p>
+        <p class="film-note">Canon T70 · Kodak Ultramax 400</p>
+      </div>
       <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Australie/Philip-island/l001.jpg" alt="Phillip Island - Nov. 2025 paysage 1" class="landscape">
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/l001.jpg" alt="Phillip Island paysage 1"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p001.jpg" alt="Phillip Island portrait 1"></div><div class="portrait"><img src="Photos/Australie/Philip-island/p002.jpg" alt="Phillip Island portrait 2"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/l002.jpg" alt="Phillip Island paysage 2"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p003.jpg" alt="Phillip Island portrait 3"></div><div class="portrait"><img src="Photos/Australie/Philip-island/p004.jpg" alt="Phillip Island portrait 4"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/l003.jpg" alt="Phillip Island paysage 3"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p005.jpg" alt="Phillip Island portrait 5"></div><div class="portrait"><img src="Photos/Australie/Philip-island/p006.jpg" alt="Phillip Island portrait 6"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p007.jpg" alt="Phillip Island portrait 7"></div><div class="portrait"><img src="Photos/Australie/Philip-island/p008.jpg" alt="Phillip Island portrait 8"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p009.jpg" alt="Phillip Island portrait 9"></div><div class="portrait"><img src="Photos/Australie/Philip-island/p010.jpg" alt="Phillip Island portrait 10"></div></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/p011.jpg" alt="Phillip Island portrait 11"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/008225330004.jpg" alt="Phillip Island paysage"></div>
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/008225330006.jpg" alt="Phillip Island paysage"></div>
+        <div class="landscape-container"><img src="Photos/Australie/Philip-island/008225330008.jpg" alt="Phillip Island paysage"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Philip-island/008225330009.jpg" alt="Phillip Island portrait"></div></div>
+      </div>
+    </section>
+
+    <!-- AUSTRALIE – FAUNE & FLORE -->
+    <section id="australia-animaux" class="section hidden">
+      <div class="section-header">
+        <div class="location-tag">Australie · 2025</div>
+        <h2>Faune &amp; Flore</h2>
+        <p class="description">
+        </p>
+        <p class="film-note">Canon T70 · Kodak Ultramax 400 </p>
+      </div>
+      <div class="gallery">
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/l001.jpg" alt="Faune paysage 1"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Animaux/p001.jpg" alt="Faune portrait 1"></div><div class="portrait"><img src="Photos/Australie/Animaux/p002.jpg" alt="Faune portrait 2"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/l002.jpg" alt="Faune paysage 2"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Animaux/p003.jpg" alt="Faune portrait 3"></div><div class="portrait"><img src="Photos/Australie/Animaux/p004.jpg" alt="Faune portrait 4"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/l003.jpg" alt="Faune paysage 3"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Animaux/p005.jpg" alt="Faune portrait 5"></div><div class="portrait"><img src="Photos/Australie/Animaux/p006.jpg" alt="Faune portrait 6"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/l004.jpg" alt="Faune paysage 4"></div>
+        <div class="portrait-row"><div class="portrait"><img src="Photos/Australie/Animaux/p007.jpg" alt="Faune portrait 7"></div><div class="portrait"><img src="Photos/Australie/Animaux/p009.jpg" alt="Faune portrait 8"></div></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330010.jpg" alt="Faune paysage"></div>
+        <div class="portrait-row">
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330011.jpg" alt="Faune portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330012.jpg" alt="Faune portrait"></div>
         </div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p001.jpg" alt="Phillip Island - Nov. 2025 portrait 1" class="portrait">
-          <img src="Photos/Australie/Philip-island/p002.jpg" alt="Phillip Island - Nov. 2025 portrait 2" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330013.jpg" alt="Faune portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330016.jpg" alt="Faune portrait"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Philip-island/l002.jpg" alt="Phillip Island - Nov. 2025 paysage 2" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330014.jpg" alt="Faune paysage"></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330015.jpg" alt="Faune paysage"></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330018.jpg" alt="Faune paysage"></div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p003.jpg" alt="Phillip Island - Nov. 2025 portrait 3" class="portrait">
-          <img src="Photos/Australie/Philip-island/p004.jpg" alt="Phillip Island - Nov. 2025 portrait 4" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330024.jpg" alt="Faune portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330025.jpg" alt="Faune portrait"></div>
         </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Philip-island/l003.jpg" alt="Phillip Island - Nov. 2025 paysage 3" class="landscape">
-        </div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330019.jpg" alt="Faune paysage"></div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330020.jpg" alt="Faune paysage"></div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p005.jpg" alt="Phillip Island - Nov. 2025 portrait 5" class="portrait">
-          <img src="Photos/Australie/Philip-island/p006.jpg" alt="Phillip Island - Nov. 2025 portrait 6" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330028.jpg" alt="Faune portrait"></div>
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330030.jpg" alt="Faune portrait"></div>
         </div>
+        <div class="landscape-container"><img src="Photos/Australie/Animaux/008225330021.jpg" alt="Faune paysage"></div>
         <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p007.jpg" alt="Phillip Island - Nov. 2025 portrait 7" class="portrait">
-          <img src="Photos/Australie/Philip-island/p008.jpg" alt="Phillip Island - Nov. 2025 portrait 8" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p009.jpg" alt="Phillip Island - Nov. 2025 portrait 9" class="portrait">
-          <img src="Photos/Australie/Philip-island/p010.jpg" alt="Phillip Island - Nov. 2025 portrait 10" class="portrait">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Philip-island/p011.jpg" alt="Phillip Island - Nov. 2025 portrait 11" class="portrait">
+          <div class="portrait"><img src="Photos/Australie/Animaux/008225330031.jpg" alt="Faune portrait"></div>
         </div>
       </div>
     </section>
 
-    <!-- Australie - La Faune -->
-    <section id="australia-animaux" class="section hidden">
-      <h2></h2>
-      <div class="gallery">
-        <div class="landscape-container">
-          <img src="Photos/Australie/Animaux/l001.jpg" alt="Photo paysage 1" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Animaux/p001.jpg" alt="Photo portrait 1" class="portrait">
-          <img src="Photos/Australie/Animaux/p002.jpg" alt="Photo portrait 2" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Animaux/l002.jpg" alt="Photo paysage 2" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Animaux/p003.jpg" alt="Photo portrait 3" class="portrait">
-          <img src="Photos/Australie/Animaux/p004.jpg" alt="Photo portrait 4" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Animaux/l003.jpg" alt="Photo paysage 3" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Animaux/p005.jpg" alt="Photo portrait 5" class="portrait">
-          <img src="Photos/Australie/Animaux/p006.jpg" alt="Photo portrait 6" class="portrait">
-        </div>
-        <div class="landscape-container">
-          <img src="Photos/Australie/Animaux/l004.jpg" alt="Photo paysage 4" class="landscape">
-        </div>
-        <div class="portrait-row">
-          <img src="Photos/Australie/Animaux/p007.jpg" alt="Photo portrait 7" class="portrait">
-          <img src="Photos/Australie/Animaux/p009.jpg" alt="Photo portrait 8" class="portrait">
-        </div>
-      </div>
-    </section>
   </main>
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const franceToggle = document.getElementById('toggle-france');
-      const swissToggle = document.getElementById('toggle-swiss');
-      const australiaToggle = document.getElementById('toggle-australia');
-      const franceMenu = document.getElementById('france-menu');
-      const swissMenu = document.getElementById('swiss-menu');
-      const australiaMenu = document.getElementById('australia-menu');
-      const navSubMenus = document.querySelectorAll('.navbar .sub-menu');
+      // ── Lazy loading sur toutes les images de galerie ──
+      document.querySelectorAll('.gallery img').forEach(img => {
+        img.loading = 'lazy';
+      });
+
+      // ── Sections : afficher la bonne dès le départ ──
+      document.querySelectorAll('.section').forEach(s => {
+        if (s.id !== 'home') s.classList.add('hidden');
+      });
+      document.getElementById('home').classList.remove('hidden');
+
+      // ── Navbar dropdowns ──
       const dropdowns = [
-        { toggle: franceToggle, menu: franceMenu },
-        { toggle: swissToggle, menu: swissMenu },
-        { toggle: australiaToggle, menu: australiaMenu }
+        { toggle: document.getElementById('toggle-france'),    menu: document.getElementById('france-menu') },
+        { toggle: document.getElementById('toggle-swiss'),     menu: document.getElementById('swiss-menu') },
+        { toggle: document.getElementById('toggle-australia'), menu: document.getElementById('australia-menu') },
       ];
 
-      function closeAllSubMenus() {
-        navSubMenus.forEach(m => {
-          m.classList.remove('show');
-          m.setAttribute('aria-hidden', 'true');
-        });
-        dropdowns.forEach(({ toggle }) => {
-          toggle.setAttribute('aria-expanded', 'false');
-        });
+      function closeAllDropdowns() {
+        dropdowns.forEach(({ menu }) => menu.classList.remove('show'));
       }
 
       dropdowns.forEach(({ toggle, menu }) => {
-        toggle.addEventListener('click', function (e) {
+        toggle.addEventListener('click', e => {
           e.preventDefault();
           const willShow = !menu.classList.contains('show');
-          closeAllSubMenus();
-          if (willShow) {
-            menu.classList.add('show');
-            menu.setAttribute('aria-hidden', 'false');
-            toggle.setAttribute('aria-expanded', 'true');
-          }
+          closeAllDropdowns();
+          if (willShow) menu.classList.add('show');
         });
       });
 
-      // clic sur liens pour afficher la section
-      document.querySelectorAll('a[data-section]').forEach(a => {
-       a.addEventListener('click', function (e) {
-         e.preventDefault();
-         const id = this.dataset.section;
-         document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-         const target = document.getElementById(id);
-         if (target) target.classList.remove('hidden');
-         closeAllSubMenus();
-       });
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.has-submenu')) closeAllDropdowns();
       });
 
-      document.addEventListener('click', function (e) {
-       if (!e.target.closest('.has-submenu')) {
-         closeAllSubMenus();
+      // ── Navigation sections ──
+      function showSection(id) {
+        document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
+        const target = document.getElementById(id);
+        if (target) {
+          target.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         }
+        closeAllDropdowns();
+        closeSidebar();
+      }
+
+      document.querySelectorAll('a[data-section]').forEach(a => {
+        a.addEventListener('click', e => {
+          e.preventDefault();
+          showSection(a.dataset.section);
+        });
       });
-   });
 
-  // Ouvrir/fermer le menu sidebar
-  const hamburger = document.getElementById('hamburger');
-const sidebar = document.getElementById('sidebar');
+      // ── Sidebar ──
+      const hamburger = document.getElementById('hamburger');
+      const sidebar = document.getElementById('sidebar');
 
-// Clic sur hamburger → ouvrir sidebar et cacher hamburger
-hamburger.addEventListener('click', () => {
-  sidebar.classList.add('show');
-  hamburger.style.display = 'none';
-});
+      hamburger.addEventListener('click', () => {
+        sidebar.classList.add('show');
+        hamburger.style.display = 'none';
+      });
 
-// Fonction pour fermer la sidebar et réafficher l'hamburger
-function closeSidebar() {
-  sidebar.classList.remove('show');
-  hamburger.style.display = 'flex'; // hamburger réapparaît
-  document.querySelectorAll('.sidebar .sub-menu').forEach(sm => sm.classList.remove('show'));
-}
+      function closeSidebar() {
+        sidebar.classList.remove('show');
+        hamburger.style.display = 'flex';
+        document.querySelectorAll('.sidebar .sub-menu').forEach(sm => sm.classList.remove('show'));
+      }
 
-// Sous-menus dans sidebar
-document.querySelectorAll('.sidebar .toggle-submenu').forEach(btn => {
-  btn.addEventListener('click', e => {
-    e.preventDefault();
-    const submenu = btn.nextElementSibling;
-    submenu.classList.toggle('show');
-  });
-});
-
-// Navigation vers les sections
-document.querySelectorAll('.sidebar a[data-section]').forEach(a => {
-  a.addEventListener('click', e => {
-    e.preventDefault();
-    const id = a.dataset.section;
-
-    // Masquer toutes les sections
-    document.querySelectorAll('.section').forEach(s => s.classList.add('hidden'));
-
-    // Afficher la section cible
-    const target = document.getElementById(id);
-    if (target) target.classList.remove('hidden');
-
-    // Fermer sidebar et réafficher hamburger
-    closeSidebar();
-  });
-});
-
-
+      document.querySelectorAll('.sidebar .toggle-submenu').forEach(btn => {
+        btn.addEventListener('click', e => {
+          e.preventDefault();
+          btn.nextElementSibling.classList.toggle('show');
+        });
+      });
+    });
   </script>
-    
 </body>
 </html>

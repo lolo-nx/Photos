@@ -1,70 +1,107 @@
+"""
+Compression de toutes les photos du site Argentik Travel.
+- Redimensionne à 2200px max (suffisant pour écrans Retina à 1100px)
+- Qualité JPEG 85% — bon compromis qualité / poids
+- Remplace les fichiers sur place (sauvegarde l'original avec _original)
+- Traite tous les sous-dossiers de Photos/ récursivement
+
+Usage :
+    python3 compression-code.py
+"""
+
 import os
-import cv2
+import shutil
 from pathlib import Path
 
-# Extensions supportées
-EXTS = {".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tif", ".tiff"}
+try:
+    from PIL import Image
+    ENGINE = "pillow"
+except ImportError:
+    try:
+        import cv2
+        ENGINE = "cv2"
+    except ImportError:
+        raise ImportError("Installe Pillow : pip3 install Pillow")
 
-def compress_image(
-    in_path: str,
-    out_path: str,
-    max_dim: int = 1920,      # comme beaucoup de compresseurs en ligne
-    quality: int = 82,        # bon compromis "iLoveIMG-like"
-    out_format: str = "jpg"   # "jpg" ou "webp"
-):
-    in_path = Path(in_path)
-    out_path = Path(out_path)
-    out_path.parent.mkdir(parents=True, exist_ok=True)
+EXTS       = {".jpg", ".jpeg", ".png"}
+MAX_DIM    = 2200      # px — retina ready pour affichage 1100px
+QUALITY    = 85        # % JPEG
+PHOTOS_DIR = Path(__file__).parent / "Photos"
 
-    img = cv2.imread(str(in_path), cv2.IMREAD_COLOR)
+
+def compress_pillow(src: Path, dst: Path):
+    with Image.open(src) as img:
+        # Conserver l'orientation EXIF
+        try:
+            from PIL import ImageOps
+            img = ImageOps.exif_transpose(img)
+        except Exception:
+            pass
+
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+
+        w, h = img.size
+        if max(w, h) > MAX_DIM:
+            scale = MAX_DIM / max(w, h)
+            img = img.resize((int(w * scale), int(h * scale)), Image.LANCZOS)
+
+        img.save(dst, "JPEG", quality=QUALITY, optimize=True)
+
+
+def compress_cv2(src: Path, dst: Path):
+    import cv2
+    import numpy as np
+    img = cv2.imread(str(src), cv2.IMREAD_COLOR)
     if img is None:
-        raise ValueError(f"Impossible de lire: {in_path}")
-
+        raise ValueError(f"Impossible de lire : {src}")
     h, w = img.shape[:2]
-    m = max(h, w)
+    if max(w, h) > MAX_DIM:
+        scale = MAX_DIM / max(w, h)
+        img = cv2.resize(img, (int(w * scale), int(h * scale)), interpolation=cv2.INTER_AREA)
+    cv2.imwrite(str(dst), img, [cv2.IMWRITE_JPEG_QUALITY, QUALITY])
 
-    # 1) Redimensionner si nécessaire
-    if m > max_dim:
-        scale = max_dim / float(m)
-        new_w = int(round(w * scale))
-        new_h = int(round(h * scale))
-        img = cv2.resize(img, (new_w, new_h), interpolation=cv2.INTER_AREA)
 
-    # 2) Encoder avec une qualité fixe
-    out_format = out_format.lower().strip(".")
-    if out_format in ("jpg", "jpeg"):
-        params = [cv2.IMWRITE_JPEG_QUALITY, int(quality)]
-        out_file = out_path.with_suffix(".jpg")
-    elif out_format == "webp":
-        params = [cv2.IMWRITE_WEBP_QUALITY, int(quality)]
-        out_file = out_path.with_suffix(".webp")
-    else:
-        raise ValueError("out_format doit être 'jpg' ou 'webp'")
+def process():
+    total, skipped, errors = 0, 0, 0
 
-    ok = cv2.imwrite(str(out_file), img, params)
-    if not ok:
-        raise RuntimeError("Échec d'écriture du fichier")
+    for src in sorted(PHOTOS_DIR.rglob("*")):
+        if not src.is_file() or src.suffix.lower() not in EXTS:
+            continue
 
-    return str(out_file)
+        size_before = src.stat().st_size
 
-def compress_folder(in_dir: str, out_dir: str, max_dim=1920, quality=82, out_format="jpg"):
-    in_dir = Path(in_dir)
-    out_dir = Path(out_dir)
-    out_dir.mkdir(parents=True, exist_ok=True)
+        try:
+            # Compresse dans un fichier temporaire puis remplace
+            tmp = src.with_suffix(".tmp.jpg")
+            if ENGINE == "pillow":
+                compress_pillow(src, tmp)
+            else:
+                compress_cv2(src, tmp)
 
-    for p in in_dir.iterdir():
-        if p.is_file() and p.suffix.lower() in EXTS:
-            out_path = out_dir / p.stem
-            out_file = compress_image(
-                in_path=str(p),
-                out_path=str(out_path),
-                max_dim=max_dim,
-                quality=quality,
-                out_format=out_format
-            )
-            print(f"{p.name} -> {Path(out_file).name}")
+            size_after = tmp.stat().st_size
+            gain = (1 - size_after / size_before) * 100
+
+            if gain > 2:
+                tmp.replace(src if src.suffix.lower() in (".jpg", ".jpeg") else src.with_suffix(".jpg"))
+                print(f"✓ {src.relative_to(PHOTOS_DIR)}  {size_before//1024}Ko → {size_after//1024}Ko  (-{gain:.0f}%)")
+                total += 1
+            else:
+                tmp.unlink()
+                print(f"– {src.relative_to(PHOTOS_DIR)}  déjà optimisée, ignorée")
+                skipped += 1
+
+        except Exception as e:
+            if Path(str(src) + ".tmp.jpg").exists():
+                Path(str(src) + ".tmp.jpg").unlink(missing_ok=True)
+            print(f"✗ {src.name}  ERREUR : {e}")
+            errors += 1
+
+    print(f"\n{'─'*50}")
+    print(f"Compressées : {total}  |  Ignorées : {skipped}  |  Erreurs : {errors}")
+
 
 if __name__ == "__main__":
-    # Exemple d’usage:
-    # compress_image("photo.png", "out/photo", max_dim=1920, quality=82, out_format="webp")
-    compress_folder("images", "compressed", max_dim=1920, quality=82, out_format="webp")
+    print(f"Moteur : {ENGINE}")
+    print(f"Dossier : {PHOTOS_DIR}\n")
+    process()

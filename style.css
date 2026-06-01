@@ -235,7 +235,7 @@ header {
 .cover {
   display: block;
   margin: 1rem auto 2rem auto;
-  max-width: 800px;
+  max-width: 1000px;
   width: 90%;
   height: auto;
   box-shadow: 4px 4px 12px rgba(0,0,0,0.2);
